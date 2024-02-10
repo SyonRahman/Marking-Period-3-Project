@@ -20,7 +20,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
 
     private void createComponents() {
         NameSet.addActionListener(this);
-        Title.setFont(new Font("Comic Sans", Font.BOLD, 50));
+        Title.setFont(new Font("Times New Roman", Font.BOLD, 50));
         Title.setForeground(Color.CYAN);
         Name.setFont(new Font("Courier New", Font.BOLD, 40));
         Name.setForeground(Color.MAGENTA);
