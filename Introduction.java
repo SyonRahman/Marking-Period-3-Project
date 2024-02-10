@@ -1,22 +1,29 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MainGUIWindow extends JFrame implements ActionListener, KeyListener {
+public class Introduction extends JFrame implements ActionListener, KeyListener {
 
     private JPanel newpanel;
-    private JButton redButtonButton;
-    private JButton blueButtonButton;
-    private JButton greenButtonButton;
-    private JButton yellowButtonButton;
+    private JLabel Name;
+    private JTextField NameEnter;
+    private JButton NameSet;
+    private JLabel Title;
+    private String name;
 
-    public MainGUIWindow() {
+    public Introduction() {
         createComponents();
     }
 
     private void createComponents() {
+        NameSet.addActionListener(this);
+        Title.setFont(new Font("Comic Sans", Font.BOLD, 50));
+        Title.setForeground(Color.CYAN);
+        Name.setFont(new Font("Courier New", Font.BOLD, 40));
+        Name.setForeground(Color.MAGENTA);
         setContentPane(newpanel);
         setTitle("Button Game");
         setSize(500, 500);
@@ -27,7 +34,10 @@ public class MainGUIWindow extends JFrame implements ActionListener, KeyListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == NameSet) {
+            name = NameEnter.getText();
+            System.out.println(name);
+        }
     }
 
     @Override
@@ -42,10 +52,6 @@ public class MainGUIWindow extends JFrame implements ActionListener, KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
-
-    }
-
-    private void createUIComponents() {
 
     }
 }
