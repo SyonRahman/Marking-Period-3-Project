@@ -12,6 +12,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private JTextField NameEnter;
     private JButton NameSet;
     private JLabel Title;
+    private JPanel Body;
     private String name;
 
     public Introduction() {
@@ -24,6 +25,13 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         Title.setForeground(Color.CYAN);
         Name.setFont(new Font("Courier New", Font.BOLD, 40));
         Name.setForeground(Color.MAGENTA);
+        NameEnter.setFont(new Font("Courier New", Font.BOLD, 50));
+        NameEnter.setBackground(Color.pink);
+        NameSet.setFont(new Font("Courier New", Font.BOLD, 30));
+        NameSet.setForeground(Color.RED);
+        NameSet.setBackground(Color.YELLOW);
+        Body.setBackground(Color.GREEN);
+        newpanel.setBackground(Color.GREEN);
         setContentPane(newpanel);
         setTitle("Button Game");
         setSize(500, 500);
