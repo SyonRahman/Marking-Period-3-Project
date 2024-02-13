@@ -20,31 +20,50 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     }
 
     private void createComponents() {
-        NameSet.addActionListener(this);
-        Title.setFont(new Font("Times New Roman", Font.BOLD, 50));
-        Title.setForeground(Color.CYAN);
-        Name.setFont(new Font("Courier New", Font.BOLD, 40));
-        Name.setForeground(Color.MAGENTA);
-        NameEnter.setFont(new Font("Courier New", Font.BOLD, 50));
-        NameEnter.setBackground(Color.pink);
-        NameSet.setFont(new Font("Courier New", Font.BOLD, 30));
-        NameSet.setForeground(Color.RED);
-        NameSet.setBackground(Color.YELLOW);
-        Body.setBackground(Color.GREEN);
-        newpanel.setBackground(Color.GREEN);
+        this.setPanels();
+        this.setButtons();
+        this.setTextField();
+        this.setLabels();
         setContentPane(newpanel);
         setTitle("Button Game");
         setSize(500, 500);
         setLocation(500, 500);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void setPanels() {
+        setContentPane(newpanel);
+        newpanel.setBackground(Color.GREEN);
+        Body.setBackground(Color.GREEN);
+    }
+
+    private void setButtons() {
+        NameSet.addActionListener(this);
+        NameSet.setFont(new Font("Courier New", Font.BOLD, 30));
+        NameSet.setForeground(Color.RED);
+        NameSet.setBackground(Color.YELLOW);
+    }
+
+    private void setLabels() {
+        Title.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        Title.setForeground(Color.CYAN);
+        Name.setFont(new Font("Courier New", Font.BOLD, 40));
+        Name.setForeground(Color.MAGENTA);
+    }
+
+    private void setTextField() {
+        NameEnter.setFont(new Font("Courier New", Font.BOLD, 50));
+        NameEnter.setBackground(Color.pink);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
-            System.out.println(name);
+            setVisible(false);
+            new MainGUIWindow();
         }
     }
 
@@ -61,5 +80,9 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public String getName() {
+        return name;
     }
 }

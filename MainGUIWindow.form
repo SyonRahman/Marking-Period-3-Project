@@ -8,7 +8,7 @@
     <properties/>
     <border type="none" title="" title-justification="2" title-position="3"/>
     <children>
-      <component id="71391" class="javax.swing.JButton" binding="greenButtonButton" default-binding="true">
+      <component id="71391" class="javax.swing.JButton" binding="greenButton">
         <constraints>
           <grid row="2" column="4" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -18,21 +18,7 @@
           <text value="Green Button"/>
         </properties>
       </component>
-      <component id="fa253" class="javax.swing.JButton" binding="blueButtonButton" default-binding="true">
-        <constraints>
-          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="10" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <background color="-15790063"/>
-          <enabled value="true"/>
-          <foreground color="-15787547"/>
-          <horizontalAlignment value="0"/>
-          <text value="Blue Button"/>
-          <verticalAlignment value="0"/>
-          <verticalTextPosition value="0"/>
-        </properties>
-      </component>
-      <component id="71220" class="javax.swing.JButton" binding="yellowButtonButton" default-binding="true">
+      <component id="71220" class="javax.swing.JButton" binding="yellowButton">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -51,15 +37,29 @@
           <text value="Button Game"/>
         </properties>
       </component>
-      <component id="a94c7" class="javax.swing.JButton" binding="redButtonButton" default-binding="true">
+      <component id="a94c7" class="javax.swing.JButton" binding="redButton">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="0" indent="7" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="0" indent="7" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-15661819"/>
           <foreground color="-1756365"/>
           <hideActionText value="false"/>
           <text value="Red Button"/>
+        </properties>
+      </component>
+      <component id="fa253" class="javax.swing.JButton" binding="blueButton">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="10" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-15790063"/>
+          <enabled value="true"/>
+          <foreground color="-15787547"/>
+          <horizontalAlignment value="0"/>
+          <text value="Blue Button"/>
+          <verticalAlignment value="0"/>
+          <verticalTextPosition value="0"/>
         </properties>
       </component>
     </children>

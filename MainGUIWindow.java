@@ -1,16 +1,13 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
-public class MainGUIWindow extends JFrame implements ActionListener, KeyListener {
+public class MainGUIWindow extends JFrame implements ActionListener, KeyListener, MouseListener {
 
     private JPanel newpanel;
-    private JButton redButtonButton;
-    private JButton blueButtonButton;
-    private JButton greenButtonButton;
-    private JButton yellowButtonButton;
+    private JButton redButton;
+    private JButton blueButton;
+    private JButton greenButton;
+    private JButton yellowButton;
 
     public MainGUIWindow() {
         createComponents();
@@ -23,6 +20,10 @@ public class MainGUIWindow extends JFrame implements ActionListener, KeyListener
         setLocation(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void buttonsequence() {
+
     }
 
     @Override
@@ -46,6 +47,31 @@ public class MainGUIWindow extends JFrame implements ActionListener, KeyListener
     }
 
     private void createUIComponents() {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
