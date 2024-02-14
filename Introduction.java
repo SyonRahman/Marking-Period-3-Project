@@ -63,7 +63,6 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
             setVisible(false);
-            new MainGUIWindow();
         }
     }
 
