@@ -1,21 +1,24 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ButtonFunctionality extends JFrame implements ActionListener, MouseListener {
-    private JPanel Buttons;
-    private JButton redButton;
-    private JButton blueButton;
-    private JButton greenButton;
-    private JButton yellowButton;
+
 
     public ButtonFunctionality() {
         createComponenets();
     }
 
     public void createComponenets() {
+        JPanel Buttons = new JPanel();
+        JButton redButton = new RoundButton();
+        redButton = new RoundButton();
+        redButton.setBackground(Color.RED);
+        Buttons.add(redButton);
+        this.setButtons();
         setContentPane(Buttons);
         setTitle("Button Presser");
         setSize(500, 500);
@@ -27,10 +30,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
     }
 
     private void setButtons() {
-        redButton.setBounds(125, 125, 50, 50);
-        blueButton.setBounds(375, 125, 50, 50);
-        greenButton.setBounds(125, 375, 50, 50);
-        yellowButton.setBounds(375, 375, 50, 50);
+
     }
 
     @Override
