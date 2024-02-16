@@ -4,19 +4,15 @@ import java.awt.geom.*;
 public class RoundButton extends JButton  {
     private Color borderColor;
     private Color fillColor;
-    private int xpos;
-    private int ypos;
 
-    public RoundButton(Color fillColor, Color borderColor, int xpos, int ypos) {
+    public RoundButton(Color fillColor, Color borderColor) {
         super();
         this.borderColor = borderColor;
         this.fillColor = fillColor;
-        this.xpos = xpos;
-        this.ypos = ypos;
         // Make the button transparent
         setContentAreaFilled(false);
         // Set preferred size to make it a circle
-        setPreferredSize(new Dimension(100, 100));
+        setPreferredSize(new Dimension(150, 150));
     }
 
     @Override
@@ -39,13 +35,6 @@ public class RoundButton extends JButton  {
         g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
     }
 
-    Shape shape;
-    public boolean contains(int x, int y) {
-        if (shape == null || !shape.getBounds().equals(getBounds())) {
-            shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
-        }
-        return shape.contains(x, y);
-    }
 
 
 }

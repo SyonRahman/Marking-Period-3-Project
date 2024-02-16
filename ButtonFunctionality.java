@@ -28,10 +28,26 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     private void setButtons() {
         ButtonsClick.add(Buttons);
-        RoundButton redButton = new RoundButton(Color.RED, Color.GRAY, 250, 250);
+
+        RoundButton redButton = new RoundButton(Color.RED, Color.GRAY);
         redButton.setLayout(null);
-        redButton.setLocation(500, 500);
+        redButton.setBounds(125, 125, 100, 100);
         Buttons.add(redButton);
+
+        RoundButton blueButton = new RoundButton(Color.BLUE, Color.GRAY);
+        blueButton.setLayout(null);
+        blueButton.setBounds(800, 125, 100, 100);
+        Buttons.add(blueButton);
+
+        RoundButton greenButton = new RoundButton(Color.GREEN, Color.GRAY);
+        greenButton.setLayout(null);
+        greenButton.setBounds(125, 800, 100, 100);
+        Buttons.add(greenButton);
+
+        RoundButton yellowButton = new RoundButton(Color.YELLOW, Color.GRAY);
+        yellowButton.setLayout(null);
+        yellowButton.setBounds(800, 800, 100, 100);
+        Buttons.add(yellowButton);
     }
 
     @Override
