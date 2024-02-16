@@ -1,56 +1,51 @@
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.*;
+public class RoundButton extends JButton  {
+    private Color borderColor;
+    private Color fillColor;
+    private int xpos;
+    private int ypos;
 
-
-public class RoundButton extends JButton {
-
-    public RoundButton() {
+    public RoundButton(Color fillColor, Color borderColor, int xpos, int ypos) {
         super();
-
-        setBackground(Color.lightGray);
-        setFocusable(false);
-
-    /*
-     These statements enlarge the button so that it
-     becomes a circle rather than an oval.
-    */
-        Dimension size = getPreferredSize();
-        size.width = size.height = Math.max(size.width, size.height);
-        setPreferredSize(size);
-
-    /*
-     This call causes the JButton not to paint the background.
-     This allows us to paint a round background.
-    */
+        this.borderColor = borderColor;
+        this.fillColor = fillColor;
+        this.xpos = xpos;
+        this.ypos = ypos;
+        // Make the button transparent
         setContentAreaFilled(false);
+        // Set preferred size to make it a circle
+        setPreferredSize(new Dimension(100, 100));
     }
 
-    protected void paintComponent(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         if (getModel().isArmed()) {
-            g.setColor(Color.gray);
+            g.setColor(Color.magenta);
         } else {
-            g.setColor(getBackground());
+            g.setColor(fillColor);
         }
-        g.fillOval(0, 0, getSize().width + 1, getSize().height + 1);
-
+        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
         super.paintComponent(g);
     }
 
-    protected void paintBorder(Graphics g) {
-        g.setColor(Color.darkGray);
-        g.drawOval(0, 0, getSize().width + 1, getSize().height + 1);
+    @Override
+    public void paintBorder(Graphics g) {
+        Graphics2D g22 = (Graphics2D) g;
+        g.setColor(borderColor);
+        g22.setStroke(new BasicStroke(5));
+        g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
     }
 
-    // Hit detection.
     Shape shape;
-
     public boolean contains(int x, int y) {
-        // If the button has changed size,  make a new shape object.
         if (shape == null || !shape.getBounds().equals(getBounds())) {
             shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
         }
         return shape.contains(x, y);
     }
+
 
 }
