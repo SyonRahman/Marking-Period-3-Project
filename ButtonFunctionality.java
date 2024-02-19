@@ -48,6 +48,12 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
         yellowButton.setLayout(null);
         yellowButton.setBounds(800, 800, 100, 100);
         Buttons.add(yellowButton);
+
+        this.add(redButton);
+        this.add(yellowButton);
+        this.add(greenButton);
+        this.add(blueButton);
+        setVisible(true);
     }
 
     @Override
