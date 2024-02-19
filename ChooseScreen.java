@@ -22,6 +22,8 @@ public class ChooseScreen extends JFrame implements ActionListener {
         reflexes.setBounds(250, 50, 100, 50);
         memory.setFont(new Font("Courier New", Font.BOLD, 50));
         reflexes.setFont(new Font("Courier New", Font.BOLD, 50));
+        memory.setForeground(Color.RED);
+        reflexes.setForeground(Color.YELLOW);
         memory.setBackground(Color.BLUE);
         reflexes.setBackground(Color.GREEN);
         memory.addActionListener(this);

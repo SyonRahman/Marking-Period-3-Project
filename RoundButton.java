@@ -12,7 +12,7 @@ public class RoundButton extends JButton  {
         // Make the button transparent
         setContentAreaFilled(false);
         // Set preferred size to make it a circle
-        setPreferredSize(new Dimension(150, 150));
+        setPreferredSize(new Dimension(200, 200));
     }
 
     @Override
