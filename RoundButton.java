@@ -23,7 +23,7 @@ public class RoundButton extends JButton  {
         } else {
             g.setColor(fillColor);
         }
-        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
+        g.fillOval(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
     }
 
@@ -31,8 +31,8 @@ public class RoundButton extends JButton  {
     public void paintBorder(Graphics g) {
         Graphics2D g22 = (Graphics2D) g;
         g.setColor(borderColor);
-        g22.setStroke(new BasicStroke(5));
-        g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
+        g22.setStroke(new BasicStroke(10));
+        g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
     }
 
 
