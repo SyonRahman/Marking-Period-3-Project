@@ -13,6 +13,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private JButton NameSet;
     private JLabel Title;
     private JPanel Body;
+    private JButton Settings;
     private String name;
 
     public Introduction() {
@@ -44,6 +45,10 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         NameSet.setFont(new Font("Courier New", Font.BOLD, 30));
         NameSet.setForeground(Color.RED);
         NameSet.setBackground(Color.YELLOW);
+        Settings.addActionListener(this);
+        Settings.setFont(new Font("Courier New", Font.BOLD, 40));
+        Settings.setForeground(Color.WHITE);
+        Settings.setBackground(Color.BLACK);
     }
 
     private void setLabels() {
@@ -60,6 +65,9 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == Settings) {
+
+        }
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
             setVisible(false);
