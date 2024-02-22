@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,6 +8,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ButtonFunctionality extends JFrame implements ActionListener, MouseListener {
+
+
+    private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
+    private RoundButton redButton = new RoundButton(Color.RED, Color.WHITE);
+    private RoundButton blueButton = new RoundButton(Color.BLUE, Color.WHITE);
+    private RoundButton greenButton = new RoundButton(Color.GREEN, Color.WHITE);
+    private RoundButton yellowButton = new RoundButton(Color.YELLOW, Color.WHITE);
 
 
     public ButtonFunctionality() {
@@ -20,33 +29,52 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
 
-        RoundButton redButton = new RoundButton(Color.RED, Color.WHITE);
         redButton.setBounds(125, 125, 200, 200);
         redButton.addActionListener(this);
         add(redButton);
 
-        RoundButton blueButton = new RoundButton(Color.BLUE, Color.WHITE);
         blueButton.setBounds(700, 125, 200, 200);
         blueButton.addActionListener(this);
         add(blueButton);
 
-        RoundButton greenButton = new RoundButton(Color.GREEN, Color.WHITE);
         greenButton.setBounds(125, 700, 200, 200);
         greenButton.addActionListener(this);
         add(greenButton);
 
-        RoundButton yellowButton = new RoundButton(Color.YELLOW, Color.WHITE);
         yellowButton.setBounds(700, 700, 200, 200);
         yellowButton.addActionListener(this);
         add(yellowButton);
 
+
         setVisible(true);
+    }
+
+    public void buttonsequence() {
+        ArrayList<RoundButton> buttonsequence = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            double buttonchance = Math.random();
+            if (buttonchance < 0.25) buttonsequence.add(redButton);
+            else if (buttonchance < 0.5) buttonsequence.add(blueButton);
+            else if (buttonchance < 0.75) buttonsequence.add(greenButton);
+            else if (buttonchance < 1) buttonsequence.add(yellowButton);
+        }
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == redButton) {
+            buttonspressed.add(redButton);
+        }
+        if (e.getSource() == blueButton) {
+            buttonspressed.add(blueButton);
+        }
+        if (e.getSource() == greenButton) {
+            buttonspressed.add(greenButton);
+        }
+        if (e.getSource() == yellowButton) {
+            buttonspressed.add(yellowButton);
+        }
     }
 
     @Override
