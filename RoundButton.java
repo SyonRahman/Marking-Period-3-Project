@@ -2,11 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 public class RoundButton extends JButton  {
+
+    private Color originalColor;
     private Color borderColor;
     private Color fillColor;
 
     public RoundButton(Color fillColor, Color borderColor) {
         super();
+        this.originalColor = fillColor;
         this.borderColor = borderColor;
         this.fillColor = fillColor;
         // Make the button transparent
@@ -38,6 +41,10 @@ public class RoundButton extends JButton  {
         g.setColor(borderColor);
         g22.setStroke(new BasicStroke(10));
         g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
+    }
+
+    public Color getOriginalColor() {
+        return originalColor;
     }
 
 
