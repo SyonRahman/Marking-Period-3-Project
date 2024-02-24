@@ -19,6 +19,8 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     public ButtonFunctionality() {
         createComponenets();
+        buttonfrequency(2000);
+        buttonsequence();
     }
 
     public void createComponenets() {
@@ -49,11 +51,25 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
         setVisible(true);
     }
 
-    public void buttonsequence() {
+    public void buttonfrequency(int timedelay) {
+        try {
+            Thread.sleep(timedelay);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buttonsequence()  {
         ArrayList<RoundButton> buttonsequence = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             double buttonchance = Math.random();
-            if (buttonchance < 0.25) buttonsequence.add(redButton);
+            if (buttonchance < 0.25) {
+                buttonsequence.add(redButton);
+                redButton.changecolor(Color.BLACK);
+                buttonfrequency(2000);
+                redButton.changecolor(Color.RED);
+                buttonfrequency(1000);
+            }
             else if (buttonchance < 0.5) buttonsequence.add(blueButton);
             else if (buttonchance < 0.75) buttonsequence.add(greenButton);
             else if (buttonchance < 1) buttonsequence.add(yellowButton);

@@ -27,6 +27,11 @@ public class RoundButton extends JButton  {
         super.paintComponent(g);
     }
 
+    public void changecolor(Color color) {
+        fillColor = color;
+        repaint();
+    }
+
     @Override
     public void paintBorder(Graphics g) {
         Graphics2D g22 = (Graphics2D) g;
