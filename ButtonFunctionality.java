@@ -1,4 +1,5 @@
 import java.lang.reflect.Array;
+import java.util.Timer;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,8 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
     private RoundButton blueButton = new RoundButton(Color.BLUE, Color.WHITE);
     private RoundButton greenButton = new RoundButton(Color.GREEN, Color.WHITE);
     private RoundButton yellowButton = new RoundButton(Color.YELLOW, Color.WHITE);
+
+    Stopwatch stopwatch = new Stopwatch();
 
 
     public ButtonFunctionality() {
@@ -60,7 +63,6 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     public void buttonsequence()  {
         ArrayList<RoundButton> buttonsequence = new ArrayList<>();
-        this.buttonfrequency(1000);
         for (int i = 0; i < 3; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) {
