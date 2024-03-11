@@ -19,7 +19,6 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     public ButtonFunctionality() {
         createComponenets();
-        buttonfrequency(500);
         buttonsequence();
     }
 
@@ -61,41 +60,34 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     public void buttonsequence()  {
         ArrayList<RoundButton> buttonsequence = new ArrayList<>();
+        this.buttonfrequency(1000);
         for (int i = 0; i < 3; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) {
                 buttonsequence.add(redButton);
                 redButton.changecolor(Color.BLACK);
-                buttonfrequency(500);
                 redButton.changecolor(Color.RED);
-                buttonfrequency(500);
                 redButton.changecolor(redButton.getOriginalColor());
             }
             else {
                 if (buttonchance < 0.5) {
                     buttonsequence.add(blueButton);
                     blueButton.changecolor(Color.BLACK);
-                    buttonfrequency(500);
                     blueButton.changecolor(Color.BLUE);
-                    buttonfrequency(500);
                     blueButton.changecolor(blueButton.getOriginalColor());
                 }
                 else {
                     if (buttonchance < 0.75) {
                         buttonsequence.add(greenButton);
                         greenButton.changecolor(Color.BLACK);
-                        buttonfrequency(500);
                         greenButton.changecolor(Color.GREEN);
-                        buttonfrequency(500);
                         greenButton.changecolor(greenButton.getOriginalColor());
                     }
                     else {
                         if (buttonchance < 1) {
                             buttonsequence.add(yellowButton);
                             yellowButton.changecolor(Color.BLACK);
-                            buttonfrequency(500);
                             yellowButton.changecolor(Color.YELLOW);
-                            buttonfrequency(500);
                             yellowButton.changecolor(yellowButton.getOriginalColor());
                         }
                     }
