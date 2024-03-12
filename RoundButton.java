@@ -5,11 +5,13 @@ public class RoundButton extends JButton  {
 
     private Color originalColor;
     private Color borderColor;
+    private Color armedColor;
     private Color fillColor;
 
-    public RoundButton(Color fillColor, Color borderColor) {
+    public RoundButton(Color fillColor, Color borderColor, Color armedColor) {
         super();
         this.originalColor = fillColor;
+        this.armedColor = armedColor;
         this.borderColor = borderColor;
         this.fillColor = fillColor;
         // Make the button transparent
@@ -22,7 +24,7 @@ public class RoundButton extends JButton  {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (getModel().isArmed()) {
-            g.setColor(Color.magenta);
+            g.setColor(armedColor);
         } else {
             g.setColor(fillColor);
         }
@@ -40,7 +42,7 @@ public class RoundButton extends JButton  {
         Graphics2D g22 = (Graphics2D) g;
         g.setColor(borderColor);
         g22.setStroke(new BasicStroke(10));
-        g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
+        g22.drawOval(5, 5, getWidth() - 8, getHeight() - 8);
     }
 
     public Color getOriginalColor() {
