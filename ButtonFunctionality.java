@@ -12,19 +12,25 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
 
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
+    private String gametype;
     private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
     private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
     private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), Color.WHITE, new Color(39, 225, 76));
     private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), Color.WHITE, new Color(227, 235, 17));
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private int buttons_clicked;
+    private int rounds_compeleted;
 
     Stopwatch stopwatch = new Stopwatch();
 
 
-    public ButtonFunctionality() {
+    public ButtonFunctionality(String type) {
         createComponenets();
-        buttonsequence();
+        if (type.equals("memory")) {
+            memorygame();
+        } else {
+            clickergame();
+        }
     }
 
     public void createComponenets() {
@@ -104,6 +110,14 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
                 }
             }
         }
+    }
+
+    public void memorygame() {
+
+    }
+
+    public void clickergame() {
+
     }
 
 
