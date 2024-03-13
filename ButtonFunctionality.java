@@ -18,6 +18,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
     private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), Color.WHITE, new Color(39, 225, 76));
     private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), Color.WHITE, new Color(227, 235, 17));
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
+    private boolean has_started;
     private int buttons_clicked;
     private int rounds_compeleted;
 
@@ -25,6 +26,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
 
     public ButtonFunctionality(String type) {
+        gametype = type;
         createComponenets();
         if (type.equals("memory")) {
             memorygame();
@@ -75,67 +77,53 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
         }
     }
 
-    public void buttonsequence()  {
-        ArrayList<RoundButton> buttonsequence = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            double buttonchance = Math.random();
-            if (buttonchance < 0.25) {
-                buttonsequence.add(redButton);
-                redButton.changecolor(Color.BLACK);
-                redButton.changecolor(Color.RED);
-                redButton.changecolor(redButton.getOriginalColor());
-            }
-            else {
-                if (buttonchance < 0.5) {
-                    buttonsequence.add(blueButton);
-                    blueButton.changecolor(Color.BLACK);
-                    blueButton.changecolor(Color.BLUE);
-                    blueButton.changecolor(blueButton.getOriginalColor());
-                }
-                else {
-                    if (buttonchance < 0.75) {
-                        buttonsequence.add(greenButton);
-                        greenButton.changecolor(Color.BLACK);
-                        greenButton.changecolor(Color.GREEN);
-                        greenButton.changecolor(greenButton.getOriginalColor());
-                    }
-                    else {
-                        if (buttonchance < 1) {
-                            buttonsequence.add(yellowButton);
-                            yellowButton.changecolor(Color.BLACK);
-                            yellowButton.changecolor(Color.YELLOW);
-                            yellowButton.changecolor(yellowButton.getOriginalColor());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public void memorygame() {
 
     }
 
     public void clickergame() {
-
+        ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
+        for (int i = 0; i < 100; i++) {
+            double buttonchance = Math.random();
+            if (buttonchance < 0.25) {
+                random_clickers.add(redButton);
+            }
+            if (buttonchance < 0.5) {
+                random_clickers.add(greenButton);
+            }
+            if (buttonchance < 0.75) {
+                random_clickers.add(yellowButton);
+            }
+            if (buttonchance < 1) {
+                random_clickers.add(blueButton);
+            }
+        }
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == startButton) {
+        if (e.getSource() == startButton && !has_started) {
             startButton.setLabel("Stop");
-            if (e.getSource() == redButton) {
-                buttonspressed.add(redButton);
-            }
-            if (e.getSource() == blueButton) {
-                buttonspressed.add(blueButton);
-            }
-            if (e.getSource() == greenButton) {
-                buttonspressed.add(greenButton);
-            }
-            if (e.getSource() == yellowButton) {
-                buttonspressed.add(yellowButton);
+            has_started = true;
+            while (has_started) {
+                if (e.getSource() == redButton) {
+                    buttonspressed.add(redButton);
+                }
+                if (e.getSource() == blueButton) {
+                    buttonspressed.add(blueButton);
+                }
+                if (e.getSource() == greenButton) {
+                    buttonspressed.add(greenButton);
+                }
+                if (e.getSource() == yellowButton) {
+                    buttonspressed.add(yellowButton);
+                }
+                if (e.getSource() == startButton) {
+                    startButton.setLabel("Start");
+                    has_started = false;
+                    JOptionPane.showMessageDialog(null, "You have decided to stop.", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
     }

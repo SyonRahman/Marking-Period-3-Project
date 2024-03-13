@@ -45,9 +45,11 @@ public class ChooseScreen extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == memory) {
             new ButtonFunctionality("memory");
+            setVisible(false);
         } else {
             if (e.getSource() == reflexes) {
                 new ButtonFunctionality("reflexes");
+                setVisible(false);
             }
         }
     }
