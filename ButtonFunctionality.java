@@ -124,6 +124,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
+            startButton.setLabel("Stop");
             if (e.getSource() == redButton) {
                 buttonspressed.add(redButton);
             }
