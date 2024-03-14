@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,8 +6,6 @@ import java.awt.event.ActionListener;
 public class ChooseScreen extends JFrame implements ActionListener {
 
 
-    private JLabel ChooseText;
-    private JPanel newScreen = new JPanel();
     private JButton memory = new JButton("Memory");
     private JButton reflexes = new JButton("Reflexes");
 

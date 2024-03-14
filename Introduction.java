@@ -71,8 +71,8 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
             new ChooseScreen();
         }
         if (e.getSource() == Leaderboard) {
-            new Leaderboard();
             setVisible(false);
+            new Leaderboard();
         }
     }
 

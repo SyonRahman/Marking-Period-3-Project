@@ -41,6 +41,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         home.setBounds(50, 50, 100, 100);
         home.setForeground(Color.BLACK);
         home.setBackground(Color.WHITE);
+        home.addActionListener(this);
         this.add(home);
 
 

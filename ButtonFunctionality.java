@@ -103,27 +103,27 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == startButton && !has_started) {
+        if (!has_started) {
             startButton.setLabel("Stop");
             has_started = true;
-            while (has_started) {
-                if (e.getSource() == redButton) {
-                    buttonspressed.add(redButton);
-                }
-                if (e.getSource() == blueButton) {
-                    buttonspressed.add(blueButton);
-                }
-                if (e.getSource() == greenButton) {
-                    buttonspressed.add(greenButton);
-                }
-                if (e.getSource() == yellowButton) {
-                    buttonspressed.add(yellowButton);
-                }
-                if (e.getSource() == startButton) {
-                    startButton.setLabel("Start");
-                    has_started = false;
-                    JOptionPane.showMessageDialog(null, "You have decided to stop.", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
-                }
+        } else {
+            startButton.setLabel("Start");
+            has_started = false;
+            JOptionPane.showMessageDialog(null, "You have decided to stop.", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (has_started) {
+            if (e.getSource() == redButton) {
+                buttonspressed.add(redButton);
+            }
+            if (e.getSource() == blueButton) {
+                buttonspressed.add(blueButton);
+            }
+            if (e.getSource() == greenButton) {
+                buttonspressed.add(greenButton);
+            }
+            if (e.getSource() == yellowButton) {
+                buttonspressed.add(yellowButton);
             }
         }
     }
