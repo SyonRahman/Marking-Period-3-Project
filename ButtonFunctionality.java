@@ -5,10 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
+import javax.sound.sampled.*;
+import java.io.IOException;
 
-public class ButtonFunctionality extends JFrame implements ActionListener, MouseListener {
+
+public class ButtonFunctionality extends JFrame implements ActionListener {
 
 
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
@@ -32,6 +34,19 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
             memorygame();
         } else {
             clickergame();
+        }
+    }
+
+    public void startmusic(boolean played) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        File music = new File("Default Music.wav");
+        AudioInputStream musicstream = AudioSystem.getAudioInputStream(music);
+        Clip musics = AudioSystem.getClip();
+        musics.open();
+
+        if (played) {
+            musics.start();
+        } else {
+            musics.stop();
         }
     }
 
@@ -98,12 +113,22 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
                 random_clickers.add(blueButton);
             }
         }
+        for (int i = 0; i < random_clickers.size(); i++) {
+            if (random_clickers.get(i) == buttonspressed.get(i)) {
+                buttons_clicked++;
+            }
+        }
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
+            try {
+                startmusic(has_started);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | IllegalArgumentException ex) {
+                throw new RuntimeException(ex);
+            }
             if (!has_started) {
                 startButton.setLabel("Stop");
                 has_started = true;
@@ -120,30 +145,5 @@ public class ButtonFunctionality extends JFrame implements ActionListener, Mouse
             else if (e.getSource() == greenButton) buttonspressed.add(greenButton);
             else if (e.getSource() == yellowButton) buttonspressed.add(yellowButton);
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }
