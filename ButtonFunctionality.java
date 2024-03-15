@@ -31,6 +31,12 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     public ButtonFunctionality(String type) {
         gametype = type;
         createComponenets();
+
+        if (type.equals("memory")) {
+            memorygame();
+        } else {
+            clickergame();
+        }
     }
 
     public void startmusic() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
