@@ -15,6 +15,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private String gametype;
+    private Clip musics;
     private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
     private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
     private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), Color.WHITE, new Color(39, 225, 76));
@@ -30,24 +31,14 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     public ButtonFunctionality(String type) {
         gametype = type;
         createComponenets();
-        if (type.equals("memory")) {
-            memorygame();
-        } else {
-            clickergame();
-        }
     }
 
-    public void startmusic(boolean played) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void startmusic() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File music = new File("Default Music.wav");
         AudioInputStream musicstream = AudioSystem.getAudioInputStream(music);
-        Clip musics = AudioSystem.getClip();
-        musics.open();
-
-        if (played) {
-            musics.start();
-        } else {
-            musics.stop();
-        }
+        musics = AudioSystem.getClip();
+        musics.open(musicstream);
+        musics.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void createComponenets() {
@@ -119,18 +110,20 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == startButton) {
-            try {
-                startmusic(has_started);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | IllegalArgumentException ex) {
-                throw new RuntimeException(ex);
-            }
             if (!has_started) {
                 startButton.setLabel("Stop");
                 has_started = true;
+                try {
+                    startmusic();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
                 startButton.setLabel("Start");
                 has_started = false;
+                musics.stop();
                 JOptionPane.showMessageDialog(null, "You have decided to stop.", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
             }
         }
