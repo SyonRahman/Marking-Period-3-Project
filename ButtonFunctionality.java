@@ -84,6 +84,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public void timer(int time) {
+
+    }
+
     public void buttonfrequency(int timedelay) {
         try {
             Thread.sleep(timedelay);
@@ -100,18 +104,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
-            if (buttonchance < 0.25) {
-                random_clickers.add(redButton);
-            }
-            if (buttonchance < 0.5) {
-                random_clickers.add(greenButton);
-            }
-            if (buttonchance < 0.75) {
-                random_clickers.add(yellowButton);
-            }
-            if (buttonchance < 1) {
-                random_clickers.add(blueButton);
-            }
+            if (buttonchance < 0.25) random_clickers.add(redButton);
+            else if (buttonchance < 0.5) random_clickers.add(greenButton);
+            else if (buttonchance < 0.75) random_clickers.add(yellowButton);
+            else if (buttonchance < 1) random_clickers.add(blueButton);
         }
         for (int i = 0; i < random_clickers.size(); i++) {
             if (random_clickers.get(i) == buttonspressed.get(i)) {
