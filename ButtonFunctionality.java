@@ -181,7 +181,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                     startButton.setLabel("Start");
                     has_started = false;
                     musics.stop();
-                    JOptionPane.showMessageDialog(null, "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
                     setVisible(false);
                 }
             }
