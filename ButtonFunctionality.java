@@ -23,10 +23,9 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), Color.WHITE, new Color(227, 235, 17));
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
-    private int buttons_clicked;
-    private int rounds_compeleted;
+    private int buttons_clicked, rounds_completed;
+    private int delay;
 
-    Stopwatch stopwatch = new Stopwatch();
 
 
     public ButtonFunctionality(String type) {
@@ -42,6 +41,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public void createComponenets() {
+        delay = 10000;
         setTitle("Button Presser");
         getContentPane().setBackground(Color.BLACK);
         setSize(1000, 1000);
@@ -75,13 +75,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public void newtimer(int time) {
-        timer = new Timer(time, this);
-        timer.start();
-    }
 
     public int setdelay(int delay) {
-        return delay * 7/8;
+        delay *= 7/8;
+        return delay;
     }
 
     public void buttonfrequency(int timedelay) {
@@ -106,10 +103,28 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             else if (buttonchance < 1) random_clickers.add(blueButton);
         }
         for (int i = 0; i < random_clickers.size(); i++) {
-            lightup(random_clickers);
-            if (random_clickers.get(i) == buttonspressed.get(i)) {
-                buttons_clicked++;
-            }
+            int finalI = i;
+            timer = new Timer(delay, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ((Timer) e.getSource()).start();
+                    if (e.getSource() == timer) {
+                        if (has_started) {
+                            if (e.getSource() == redButton) buttonspressed.add(redButton);
+                            else if (e.getSource() == blueButton) buttonspressed.add(blueButton);
+                            else if (e.getSource() == greenButton) buttonspressed.add(greenButton);
+                            else if (e.getSource() == yellowButton) buttonspressed.add(yellowButton);
+                        }
+                        if (random_clickers.get(finalI) == buttonspressed.get(finalI)) {
+                            buttons_clicked++;
+                            setdelay(delay);
+                            ((Timer) e.getSource()).start();
+                        } else {
+                            has_started = false;
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -156,15 +171,11 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                 if (!has_started) {
                     startButton.setLabel("Stop");
                     has_started = true;
-                    newtimer(5000);
+                    clickergame();
                     try {
                         startmusic(new File("Default Music.wav"));
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                         throw new RuntimeException(ex);
-                    }
-
-                    if (e.getSource() == timer) {
-                        clickergame();
                     }
                 } else {
                     startButton.setLabel("Start");
@@ -172,18 +183,12 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                     musics.stop();
                     timer.stop();
                     JOptionPane.showMessageDialog(null, "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+                    setVisible(false);
                 }
             }
             if (gametype.equals("memory")) {
 
             }
-        }
-
-        if (has_started) {
-            if (e.getSource() == redButton) buttonspressed.add(redButton);
-            else if (e.getSource() == blueButton) buttonspressed.add(blueButton);
-            else if (e.getSource() == greenButton) buttonspressed.add(greenButton);
-            else if (e.getSource() == yellowButton) buttonspressed.add(yellowButton);
         }
     }
 }
