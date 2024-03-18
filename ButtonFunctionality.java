@@ -106,6 +106,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             else if (buttonchance < 1) random_clickers.add(blueButton);
         }
         for (int i = 0; i < random_clickers.size(); i++) {
+            lightup(random_clickers);
             if (random_clickers.get(i) == buttonspressed.get(i)) {
                 buttons_clicked++;
             }
