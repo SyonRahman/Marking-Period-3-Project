@@ -32,8 +32,9 @@ public class RoundButton extends JButton  {
         super.paintComponent(g);
     }
 
-    public void changecolor(Color color) {
-        fillColor = color;
+    public void changecolor(Color fillcolor, Color armedColor) {
+        this.fillColor = fillcolor;
+        this.armedColor = armedColor;
         repaint();
     }
 

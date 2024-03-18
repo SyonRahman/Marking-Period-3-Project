@@ -1,5 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.Timer;
+
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +15,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private String gametype;
+    private Timer timer;
     private Clip musics;
     private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
     private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
@@ -31,16 +32,9 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     public ButtonFunctionality(String type) {
         gametype = type;
         createComponenets();
-
-        if (type.equals("memory")) {
-            memorygame();
-        } else {
-            clickergame();
-        }
     }
 
-    public void startmusic() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File music = new File("Default Music.wav");
+    public void startmusic(File music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         AudioInputStream musicstream = AudioSystem.getAudioInputStream(music);
         musics = AudioSystem.getClip();
         musics.open(musicstream);
@@ -81,8 +75,13 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public void timer(int time) {
+    public void newtimer(int time) {
+        timer = new Timer(time, this);
+        timer.start();
+    }
 
+    public int setdelay(int delay) {
+        return delay * 7/8;
     }
 
     public void buttonfrequency(int timedelay) {
@@ -113,24 +112,69 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         }
     }
 
+    public void lightup(ArrayList<RoundButton> buttons) {
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons.get(i) == redButton) {
+                makelight(redButton);
+            } else {
+                if (buttons.get(i) == blueButton) {
+                    makelight(blueButton);
+                } else {
+                    if (buttons.get(i) == greenButton) {
+                        makelight(greenButton);
+                    } else {
+                        makelight(yellowButton);
+                    }
+                }
+            }
+        }
+    }
+
+    public RoundButton makelight(RoundButton button) {
+        if (button == redButton) {
+            return new RoundButton(new Color(235, 18, 18), Color.WHITE, new Color(138, 22, 22));
+        }
+        if (button == blueButton) {
+            return new RoundButton(new Color(31, 38, 245), Color.WHITE, new Color(12, 16, 122));
+        }
+        if (button == greenButton) {
+            return new RoundButton(new Color(39, 225, 76), Color.WHITE, new Color(15, 111, 35));
+        }
+        if (button == yellowButton) {
+            return new RoundButton(new Color(227, 235, 17), Color.WHITE, new Color(154, 158, 27));
+        }
+        return null;
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == startButton) {
-            if (!has_started) {
-                startButton.setLabel("Stop");
-                has_started = true;
-                try {
-                    startmusic();
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-                    throw new RuntimeException(ex);
+            if (gametype.equals("reflexes")) {
+                if (!has_started) {
+                    startButton.setLabel("Stop");
+                    has_started = true;
+                    newtimer(5000);
+                    try {
+                        startmusic(new File("Default Music.wav"));
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    if (e.getSource() == timer) {
+                        clickergame();
+                    }
+                } else {
+                    startButton.setLabel("Start");
+                    has_started = false;
+                    musics.stop();
+                    timer.stop();
+                    JOptionPane.showMessageDialog(null, "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
-                startButton.setLabel("Start");
-                has_started = false;
-                musics.stop();
-                JOptionPane.showMessageDialog(null, "You have decided to stop.", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+            }
+            if (gametype.equals("memory")) {
+
             }
         }
 
