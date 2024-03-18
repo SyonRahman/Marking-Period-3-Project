@@ -81,13 +81,6 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         return delay;
     }
 
-    public void buttonfrequency(int timedelay) {
-        try {
-            Thread.sleep(timedelay);
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void memorygame() {
 
@@ -108,7 +101,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ((Timer) e.getSource()).start();
-                    if (e.getSource() == timer) {
+                    makelight(random_clickers.get(finalI));
                         if (has_started) {
                             if (e.getSource() == redButton) buttonspressed.add(redButton);
                             else if (e.getSource() == blueButton) buttonspressed.add(blueButton);
@@ -118,48 +111,42 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                         if (random_clickers.get(finalI) == buttonspressed.get(finalI)) {
                             buttons_clicked++;
                             setdelay(delay);
-                            ((Timer) e.getSource()).start();
+                            ((Timer) e.getSource()).stop();
                         } else {
                             has_started = false;
                         }
-                    }
                 }
             });
         }
     }
 
-    public void lightup(ArrayList<RoundButton> buttons) {
-        for (int i = 0; i < buttons.size(); i++) {
-            if (buttons.get(i) == redButton) {
-                makelight(redButton);
-            } else {
-                if (buttons.get(i) == blueButton) {
-                    makelight(blueButton);
-                } else {
-                    if (buttons.get(i) == greenButton) {
-                        makelight(greenButton);
-                    } else {
-                        makelight(yellowButton);
-                    }
-                }
-            }
-        }
-    }
-
     public RoundButton makelight(RoundButton button) {
         if (button == redButton) {
-            return new RoundButton(new Color(235, 18, 18), Color.WHITE, new Color(138, 22, 22));
+            RoundButton lightredbutton = new RoundButton(new Color(235, 18, 18), Color.WHITE, new Color(138, 22, 22));
+            lightredbutton.setBounds(125, 125, 200, 200);
+            remove(redButton);
+            add(lightredbutton);
         }
         if (button == blueButton) {
-            return new RoundButton(new Color(31, 38, 245), Color.WHITE, new Color(12, 16, 122));
+            RoundButton lightbluebutton = new RoundButton(new Color(31, 38, 245), Color.WHITE, new Color(12, 16, 122));
+            lightbluebutton.setBounds(700, 125, 200, 200);
+            remove(blueButton);
+            add(lightbluebutton);
         }
         if (button == greenButton) {
-            return new RoundButton(new Color(39, 225, 76), Color.WHITE, new Color(15, 111, 35));
+            RoundButton lightgreenbutton = new RoundButton(new Color(39, 225, 76), Color.WHITE, new Color(15, 111, 35));
+            lightgreenbutton.setBounds(125, 700, 200, 200);
+            remove(greenButton);
+            add(lightgreenbutton);
         }
         if (button == yellowButton) {
             return new RoundButton(new Color(227, 235, 17), Color.WHITE, new Color(154, 158, 27));
         }
         return null;
+    }
+
+    public void resetButtoncolor(RoundButton button) {
+
     }
 
 
