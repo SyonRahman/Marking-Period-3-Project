@@ -19,7 +19,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private String gametype;
     private Clip musics;
-    private ArrayList<RoundButton> random_clickers;
+    private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
     private ArrayList<Timer> timers = new ArrayList<Timer>();
     private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
     private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
@@ -64,6 +64,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
         yellowButton.setBounds(700, 700, 200, 200);
         yellowButton.addActionListener(this);
+        yellowButton.setBackground(Color.GREEN);
         add(yellowButton);
 
         startButton.setBounds(450, 450, 100, 100);
@@ -151,28 +152,16 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     public RoundButton makelight(RoundButton button) {
         if (button == redButton) {
-            RoundButton lightredbutton = new RoundButton(new Color(235, 18, 18), Color.WHITE, new Color(138, 22, 22));
-            lightredbutton.setBounds(125, 125, 200, 200);
-            remove(redButton);
-            add(lightredbutton);
+            redButton.repaint(new Color(235, 18, 18), new Color(138, 22, 22));
         }
         if (button == blueButton) {
-            RoundButton lightbluebutton = new RoundButton(new Color(31, 38, 245), Color.WHITE, new Color(12, 16, 122));
-            lightbluebutton.setBounds(700, 125, 200, 200);
-            remove(blueButton);
-            add(lightbluebutton);
+           blueButton.repaint(new Color(31, 38, 255), new Color(12, 16, 122));
         }
         if (button == greenButton) {
-            RoundButton lightgreenbutton = new RoundButton(new Color(39, 225, 76), Color.WHITE, new Color(15, 111, 35));
-            lightgreenbutton.setBounds(125, 700, 200, 200);
-            remove(greenButton);
-            add(lightgreenbutton);
+            greenButton.repaint(new Color(39, 225, 76), new Color(15, 111, 35));
         }
         if (button == yellowButton) {
-            RoundButton lightyellowbutton = new RoundButton(new Color(227, 235, 17), Color.WHITE, new Color(154, 158, 27));
-            lightyellowbutton.setBounds(700, 700, 200, 200);
-            remove(yellowButton);
-            add(lightyellowbutton);
+            yellowButton.repaint(new Color(225, 235, 76), new Color(154, 158, 35));
         }
         return null;
     }
