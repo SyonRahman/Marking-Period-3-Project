@@ -1,6 +1,8 @@
 import java.lang.reflect.Array;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.util.TimerTask;
 
 
 public class ButtonFunctionality extends JFrame implements ActionListener {
@@ -15,8 +18,9 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private String gametype;
-    private Timer timer;
     private Clip musics;
+    private ArrayList<RoundButton> random_clickers;
+    private ArrayList<Timer> timers = new ArrayList<Timer>();
     private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
     private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
     private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), Color.WHITE, new Color(39, 225, 76));
@@ -24,8 +28,6 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
     private int buttons_clicked, rounds_completed;
-    private int delay;
-
 
 
     public ButtonFunctionality(String type) {
@@ -41,7 +43,6 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public void createComponenets() {
-        delay = 10000;
         setTitle("Button Presser");
         getContentPane().setBackground(Color.BLACK);
         setSize(1000, 1000);
@@ -87,37 +88,65 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public void clickergame() {
-        ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
+        random_clickers.clear();
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) random_clickers.add(redButton);
             else if (buttonchance < 0.5) random_clickers.add(greenButton);
             else if (buttonchance < 0.75) random_clickers.add(yellowButton);
-            else if (buttonchance < 1) random_clickers.add(blueButton);
+            else random_clickers.add(blueButton);
         }
         for (int i = 0; i < random_clickers.size(); i++) {
             int finalI = i;
-            timer = new Timer(delay, new ActionListener() {
+            int initialDelay = 10000;
+
+            Timer timer = new Timer();
+            timers.add(timer);
+            TimerTask task = new TimerTask() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    ((Timer) e.getSource()).start();
+                public void run() {
                     makelight(random_clickers.get(finalI));
-                        if (has_started) {
-                            if (e.getSource() == redButton) buttonspressed.add(redButton);
-                            else if (e.getSource() == blueButton) buttonspressed.add(blueButton);
-                            else if (e.getSource() == greenButton) buttonspressed.add(greenButton);
-                            else if (e.getSource() == yellowButton) buttonspressed.add(yellowButton);
-                        }
-                        if (random_clickers.get(finalI) == buttonspressed.get(finalI)) {
+
+                    if (has_started) {
+                        if (random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
                             buttons_clicked++;
-                            setdelay(delay);
-                            ((Timer) e.getSource()).stop();
+                            int updatedDelay = setdelay(initialDelay);
+                            cancel();
+                            scheduleNextTask(finalI, updatedDelay);
                         } else {
                             has_started = false;
+                            cancel();
                         }
+                    }
                 }
-            });
+            };
+            timer.schedule(task, initialDelay);
         }
+    }
+
+    public void scheduleNextTask(int index, int delay) {
+        Timer timer = new Timer();
+        timers.add(timer);
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                makelight(random_clickers.get(index));
+
+                if (has_started) {
+                    if (random_clickers.get(index).equals(buttonspressed.get(index))) {
+                        buttons_clicked++;
+                        int updatedDelay = setdelay(delay);
+                        cancel();
+                        scheduleNextTask(index, updatedDelay);
+                    } else {
+                        has_started = false;
+                        cancel();
+                    }
+                }
+            }
+        };
+        timer.schedule(task, delay);
     }
 
     public RoundButton makelight(RoundButton button) {
@@ -140,7 +169,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             add(lightgreenbutton);
         }
         if (button == yellowButton) {
-            return new RoundButton(new Color(227, 235, 17), Color.WHITE, new Color(154, 158, 27));
+            RoundButton lightyellowbutton = new RoundButton(new Color(227, 235, 17), Color.WHITE, new Color(154, 158, 27));
+            lightyellowbutton.setBounds(700, 700, 200, 200);
+            remove(yellowButton);
+            add(lightyellowbutton);
         }
         return null;
     }
