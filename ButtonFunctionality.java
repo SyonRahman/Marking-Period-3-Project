@@ -151,17 +151,17 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public RoundButton makelight(RoundButton button) {
-        if (button == redButton) {
-            redButton.repaint(new Color(235, 18, 18), new Color(138, 22, 22));
+        if (button.equals(redButton)) {
+            redButton.changecolor(new Color(235, 18, 18), new Color(138, 22, 22));
         }
-        if (button == blueButton) {
-           blueButton.repaint(new Color(31, 38, 255), new Color(12, 16, 122));
+        if (button.equals(blueButton)) {
+           blueButton.changecolor(new Color(31, 38, 255), new Color(12, 16, 122));
         }
-        if (button == greenButton) {
-            greenButton.repaint(new Color(39, 225, 76), new Color(15, 111, 35));
+        if (button.equals(greenButton)) {
+            greenButton.changecolor(new Color(39, 225, 76), new Color(15, 111, 35));
         }
-        if (button == yellowButton) {
-            yellowButton.repaint(new Color(225, 235, 76), new Color(154, 158, 35));
+        if (button.equals(yellowButton)) {
+            yellowButton.changecolor(new Color(225, 235, 76), new Color(154, 158, 35));
         }
         return null;
     }
