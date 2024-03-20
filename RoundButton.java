@@ -43,7 +43,7 @@ public class RoundButton extends JButton  {
         Graphics2D g22 = (Graphics2D) g;
         g.setColor(borderColor);
         g22.setStroke(new BasicStroke(10));
-        g22.drawOval(5, 5, getWidth() - 8, getHeight() - 8);
+        g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
     }
 
     public Color getOriginalColor() {
