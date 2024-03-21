@@ -3,20 +3,29 @@ import java.awt.*;
 import java.awt.geom.*;
 public class RoundButton extends JButton  {
 
-    private Color originalColor;
+
+    private Color lightcolor;
+    private Color darkcolor;
     private Color borderColor;
-    private Color armedColor;
-    private Color fillColor;
+
 
     public RoundButton(Color fillColor, Color borderColor, Color armedColor) {
         super();
-        this.originalColor = fillColor;
-        this.armedColor = armedColor;
+        darkcolor = fillColor;
+        lightcolor = armedColor;
         this.borderColor = borderColor;
-        this.fillColor = fillColor;
         // Make the button transparent
         setContentAreaFilled(false);
         // Set preferred size to make it a circle
+        setPreferredSize(new Dimension(200, 200));
+    }
+
+    public RoundButton(Color fillColor, Color armedColor) {
+        super();
+        darkcolor = fillColor;
+        lightcolor = armedColor;
+        this.borderColor = Color.WHITE;
+        setContentAreaFilled(false);
         setPreferredSize(new Dimension(200, 200));
     }
 
@@ -24,17 +33,18 @@ public class RoundButton extends JButton  {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (getModel().isArmed()) {
-            g.setColor(armedColor);
+            g.setColor(lightcolor);
         } else {
-            g.setColor(fillColor);
+            g.setColor(darkcolor);
         }
         g.fillOval(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
     }
 
-    public void changecolor(Color fillcolor, Color armedColor) {
-        this.fillColor = fillcolor;
-        this.armedColor = armedColor;
+    public void changecolor() {
+        Color temp = darkcolor;
+        darkcolor = lightcolor;
+        lightcolor = temp;
         repaint();
     }
 
@@ -46,8 +56,12 @@ public class RoundButton extends JButton  {
         g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
     }
 
-    public Color getOriginalColor() {
-        return originalColor;
+    public Color getLightcolor() {
+        return lightcolor;
+    }
+
+    public Color getDarkcolor() {
+        return darkcolor;
     }
 
 

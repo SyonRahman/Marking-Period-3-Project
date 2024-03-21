@@ -1,7 +1,8 @@
 import java.lang.reflect.Array;
 
 import java.util.ArrayList;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,10 +20,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private final String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
-    private RoundButton redButton = new RoundButton(new Color(138, 22, 22), Color.WHITE, new Color(235, 18, 18));
-    private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), Color.WHITE, new Color(31, 38, 245));
-    private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), Color.WHITE, new Color(39, 225, 76));
-    private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), Color.WHITE, new Color(227, 235, 17));
+    private RoundButton redButton = new RoundButton(new Color(138, 22, 22), new Color(235, 18, 18));
+    private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), new Color(31, 38, 245));
+    private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), new Color(39, 225, 76));
+    private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), new Color(227, 235, 17));
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
     private int buttons_clicked, rounds_completed;
@@ -74,18 +75,12 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-
-    public int setdelay(int delay) {
-        delay *= 7/8;
-        return delay;
-    }
-
-
     public void memorygame() {
 
     }
 
     public void clickergame() {
+        int delay = 12000;
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) random_clickers.add(redButton);
@@ -95,32 +90,21 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         }
         for (int i = 0; i < random_clickers.size(); i++) {
             int finalI = i;
-            int delay = 12000;
-            Timer timer = new Timer(setdelay(delay), new ActionListener() {
+
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    makelight(random_clickers.get(finalI));
-                    random_clickers.get(finalI).addActionListener(f -> random_clickers.get(finalI).changecolor());
+                public void run() {
+                    random_clickers.get(finalI).changecolor();
+                    random_clickers.get(finalI).addActionListener(e -> );
+                    if (random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
+                        buttons_clicked++;
+                        buttonspressed.get(finalI).changecolor();
+                    }
                 }
-            });
+            }, delay);
+            delay *= 7/8;
         }
-    }
-
-
-    public RoundButton makelight(RoundButton button) {
-        if (button.equals(redButton)) {
-            redButton.changecolor(new Color(235, 18, 18), new Color(138, 22, 22));
-        }
-        if (button.equals(blueButton)) {
-           blueButton.changecolor(new Color(31, 38, 255), new Color(12, 16, 122));
-        }
-        if (button.equals(greenButton)) {
-            greenButton.changecolor(new Color(39, 225, 76), new Color(15, 111, 35));
-        }
-        if (button.equals(yellowButton)) {
-            yellowButton.changecolor(new Color(225, 235, 76), new Color(154, 158, 35));
-        }
-        return null;
     }
 
     public void resetButtoncolor(RoundButton button) {
