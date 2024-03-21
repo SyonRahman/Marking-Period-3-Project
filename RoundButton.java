@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-public class RoundButton extends JButton  {
+public class RoundButton extends JButton {
 
 
     private Color lightcolor;

@@ -1,3 +1,4 @@
+import java.awt.event.MouseListener;
 import java.lang.reflect.Array;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private final String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
-    private RoundButton redButton = new RoundButton(new Color(138, 22, 22), new Color(235, 18, 18));
-    private RoundButton blueButton = new RoundButton(new Color(12, 16, 122), new Color(31, 38, 245));
-    private RoundButton greenButton = new RoundButton(new Color(15, 111, 35), new Color(39, 225, 76));
-    private RoundButton yellowButton = new RoundButton(new Color(154, 158, 27), new Color(227, 235, 17));
+    private RoundButton redButton = new RoundButton(Color.RED.darker(), Color.RED.brighter());
+    private RoundButton blueButton = new RoundButton(Color.BLUE.darker(), Color.BLUE.brighter());
+    private RoundButton greenButton = new RoundButton(Color.GREEN.darker(), Color.GREEN.brighter());
+    private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
     private int buttons_clicked, rounds_completed;
@@ -79,6 +80,8 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     }
 
+
+
     public void clickergame() {
         int delay = 12000;
         for (int i = 0; i < 100; i++) {
@@ -96,14 +99,13 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                 @Override
                 public void run() {
                     random_clickers.get(finalI).changecolor();
-                    random_clickers.get(finalI).addActionListener(e -> );
                     if (random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
                         buttons_clicked++;
                         buttonspressed.get(finalI).changecolor();
                     }
                 }
             }, delay);
-            delay *= 7/8;
+            delay *= 9/10;
         }
     }
 
@@ -139,4 +141,5 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             }
         }
     }
+
 }

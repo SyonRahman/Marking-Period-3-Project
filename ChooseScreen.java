@@ -12,7 +12,6 @@ public class ChooseScreen extends JFrame implements ActionListener {
     public ChooseScreen() {
         createComponenets();
     }
-
     public void createComponenets() {
         this.setLayout(new GridLayout(0, 1));
         memory.setBounds(50, 50, 100, 50);
