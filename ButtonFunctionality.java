@@ -54,16 +54,12 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         add(redButton);
 
         blueButton.setBounds(700, 125, 200, 200);
-        blueButton.addActionListener(this);
         add(blueButton);
 
         greenButton.setBounds(125, 700, 200, 200);
-        greenButton.addActionListener(this);
         add(greenButton);
 
         yellowButton.setBounds(700, 700, 200, 200);
-        yellowButton.addActionListener(this);
-        yellowButton.setBackground(Color.GREEN);
         add(yellowButton);
 
         startButton.setBounds(450, 450, 100, 100);
@@ -83,7 +79,9 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
 
     public void clickergame() {
-        int delay = 12000;
+        int initialDelay = 0;
+        int interval = 12000;
+        Timer timer = new Timer();
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) random_clickers.add(redButton);
@@ -94,18 +92,21 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         for (int i = 0; i < random_clickers.size(); i++) {
             int finalI = i;
 
-            Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     random_clickers.get(finalI).changecolor();
-                    if (random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
+                    if (buttonspressed != null && random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
                         buttons_clicked++;
                         buttonspressed.get(finalI).changecolor();
+                    } else {
+                        
                     }
                 }
-            }, delay);
-            delay *= 9/10;
+            }, initialDelay);
+
+            initialDelay += interval; // Increment the delay for next task
+            interval *= 9/10; // Decrease the interval for subsequent tasks
         }
     }
 
@@ -116,18 +117,21 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == startButton) {
             if (gametype.equals("reflexes")) {
                 if (!has_started) {
+                    redButton.addActionListener(this);
+                    blueButton.addActionListener(this);
+                    greenButton.addActionListener(this);
+                    yellowButton.addActionListener(this);
                     startButton.setLabel("Stop");
                     has_started = true;
-                    clickergame();
                     try {
                         startmusic(new File("Default Music.wav"));
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                         throw new RuntimeException(ex);
                     }
+                    clickergame();
                 } else {
                     startButton.setLabel("Start");
                     has_started = false;
