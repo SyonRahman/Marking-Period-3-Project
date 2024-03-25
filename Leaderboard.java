@@ -22,6 +22,7 @@ public class Leaderboard extends JFrame implements ActionListener {
 
     public void createComponents() {
         setVisible(true);
+        setResizable(false);
         setTitle("Leaderboard");
         getContentPane().setBackground(Color.BLACK);
         setLayout(null);

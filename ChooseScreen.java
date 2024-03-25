@@ -34,6 +34,7 @@ public class ChooseScreen extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.add(memory);
         this.add(reflexes);
+        setResizable(false);
         setVisible(true);
     }
 

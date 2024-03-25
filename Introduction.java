@@ -31,6 +31,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         setLocation(500, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setVisible(true);
     }
 

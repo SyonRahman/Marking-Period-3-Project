@@ -21,10 +21,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private final String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
-    private RoundButton redButton = new RoundButton(Color.RED.darker(), Color.RED.brighter());
-    private RoundButton blueButton = new RoundButton(Color.BLUE.darker(), Color.BLUE.brighter());
-    private RoundButton greenButton = new RoundButton(Color.GREEN.darker(), Color.GREEN.brighter());
-    private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker(), Color.YELLOW.brighter());
+    private RoundButton redButton = new RoundButton(Color.RED.darker().darker(), Color.RED.brighter());
+    private RoundButton blueButton = new RoundButton(Color.BLUE.darker().darker(), Color.BLUE.brighter());
+    private RoundButton greenButton = new RoundButton(Color.GREEN.darker().darker(), Color.GREEN.brighter());
+    private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
     private int buttons_clicked, rounds_completed;
@@ -53,22 +53,23 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         redButton.setBounds(125, 125, 200, 200);
         add(redButton);
 
-        blueButton.setBounds(700, 125, 200, 200);
+        blueButton.setBounds(625, 125, 200, 200);
         add(blueButton);
 
-        greenButton.setBounds(125, 700, 200, 200);
+        greenButton.setBounds(125, 625, 200, 200);
         add(greenButton);
 
-        yellowButton.setBounds(700, 700, 200, 200);
+        yellowButton.setBounds(625, 625, 200, 200);
         add(yellowButton);
 
-        startButton.setBounds(450, 450, 100, 100);
+        startButton.setBounds(425, 425, 100, 100);
         startButton.setLabel("Start");
         startButton.setFont(new Font("Courier New", Font.BOLD, 20));
         startButton.addActionListener(this);
         add(startButton);
 
 
+        setResizable(false);
         setVisible(true);
     }
 
@@ -79,8 +80,10 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
 
     public void clickergame() {
+        boolean[] clickedcorrectly = new boolean[1];
         int initialDelay = 0;
         int interval = 12000;
+        int index = 0;
         Timer timer = new Timer();
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
@@ -89,28 +92,31 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             else if (buttonchance < 0.75) random_clickers.add(yellowButton);
             else random_clickers.add(blueButton);
         }
-        for (int i = 0; i < random_clickers.size(); i++) {
-            int finalI = i;
-
-            timer.schedule(new TimerTask() {
+        int finalIndex = index;
+        TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    random_clickers.get(finalI).changecolor();
-                    if (buttonspressed != null && random_clickers.get(finalI).equals(buttonspressed.get(finalI))) {
-                        buttons_clicked++;
-                        buttonspressed.get(finalI).changecolor();
+                    if (finalIndex < random_clickers.size()) {
+                        random_clickers.get(finalIndex).changecolor();
+                        random_clickers.get(finalIndex).addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (e.getSource() == random_clickers.get(finalIndex)) {
+                                    clickedcorrectly[0] = true;
+                                    random_clickers.get(finalIndex).changecolor();
+                                    buttons_clicked++;
+                                } else {
+                                    JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
+                        });
                     } else {
-                        
+                        timer.cancel();
                     }
                 }
-            }, initialDelay);
+        };
 
-            initialDelay += interval; // Increment the delay for next task
-            interval *= 9/10; // Decrease the interval for subsequent tasks
-        }
-    }
-
-    public void resetButtoncolor(RoundButton button) {
+        timer.schedule(task, 0, 5000);
 
     }
 
