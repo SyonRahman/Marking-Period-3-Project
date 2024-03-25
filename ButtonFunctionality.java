@@ -27,6 +27,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
+    private int interval;
     private int buttons_clicked, rounds_completed;
 
 
@@ -75,6 +76,48 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
 
     public void memorygame() {
 
+    }
+
+    public void clickersgame() throws InterruptedException {
+        interval = 12000;
+        for (int i = 0; i < 100; i++) {
+            double buttonchance = Math.random();
+            if (buttonchance < 0.25) random_clickers.add(redButton);
+            else if (buttonchance < 0.5) random_clickers.add(greenButton);
+            else if (buttonchance < 0.75) random_clickers.add(yellowButton);
+            else random_clickers.add(blueButton);
+        }
+        for (int i = 0; i < random_clickers.size(); i++) {
+            int finalI = i;
+            SwingWorker<Void, Void> clicker = new SwingWorker<Void, Void>() {
+                boolean hasCompleted = false;
+                @Override
+                protected Void doInBackground() throws Exception {
+                    random_clickers.get(finalI).changecolor();
+                    random_clickers.get(finalI).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (e.getSource() == random_clickers.get(finalI)) {
+                                random_clickers.get(finalI).changecolor();
+                                buttons_clicked++;
+                                hasCompleted = true;
+                            } else {
+                                JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    });
+                    Thread.sleep(interval);
+
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    super.done();
+                }
+            };
+            clicker.execute();
+        }
     }
 
 
@@ -137,7 +180,11 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                         throw new RuntimeException(ex);
                     }
-                    clickergame();
+                    try {
+                        clickersgame();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } else {
                     startButton.setLabel("Start");
                     has_started = false;
