@@ -21,13 +21,13 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private final String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
+    private ArrayList<RoundButton> memory_buttons = new ArrayList<RoundButton>();
     private RoundButton redButton = new RoundButton(Color.RED.darker().darker(), Color.RED.brighter());
     private RoundButton blueButton = new RoundButton(Color.BLUE.darker().darker(), Color.BLUE.brighter());
     private RoundButton greenButton = new RoundButton(Color.GREEN.darker().darker(), Color.GREEN.brighter());
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
-    private int interval;
     private int buttons_clicked, rounds_completed;
 
 
@@ -75,22 +75,24 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public void memorygame() {
+        memory_buttons.add(setRandomButtons());
+    }
 
+    public RoundButton setRandomButtons() {
+        if (Math.random() < 0.25) return redButton;
+        else if (Math.random() < 0.5) return greenButton;
+        else if (Math.random() < 0.75) return yellowButton;
+        else return blueButton;
     }
 
     public void clickersgame() throws InterruptedException {
-        interval = 5000;
         for (int i = 0; i < 100; i++) {
-            double buttonchance = Math.random();
-            if (buttonchance < 0.25) random_clickers.add(redButton);
-            else if (buttonchance < 0.5) random_clickers.add(greenButton);
-            else if (buttonchance < 0.75) random_clickers.add(yellowButton);
-            else random_clickers.add(blueButton);
+            random_clickers.add(setRandomButtons());
         }
-        newclicker(0);
+        newclicker(0, 10000);
     }
 
-    public void newclicker(int index) {
+    public void newclicker(int index, int interval) {
         if (index >= random_clickers.size()) {
             return;
         }
@@ -107,10 +109,9 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                             random_clickers.get(index).changecolor();
                             buttons_clicked++;
                             hasCompleted = true;
-                            interval *= 0.9;
-                            newclicker(index + 1);
+                            newclicker(index + 1, interval * 9 / 10);
                         } else {
-                            JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(new Introduction(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 });
@@ -130,59 +131,11 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
         clicker.execute();
     }
 
-
-
-    public void clickergame() {
-        boolean[] clickedcorrectly = new boolean[1];
-        int initialDelay = 0;
-        int interval = 12000;
-        int index = 0;
-        Timer timer = new Timer();
-        for (int i = 0; i < 100; i++) {
-            double buttonchance = Math.random();
-            if (buttonchance < 0.25) random_clickers.add(redButton);
-            else if (buttonchance < 0.5) random_clickers.add(greenButton);
-            else if (buttonchance < 0.75) random_clickers.add(yellowButton);
-            else random_clickers.add(blueButton);
-        }
-        int finalIndex = index;
-        TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    if (finalIndex < random_clickers.size()) {
-                        random_clickers.get(finalIndex).changecolor();
-                        random_clickers.get(finalIndex).addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                if (e.getSource() == random_clickers.get(finalIndex)) {
-                                    clickedcorrectly[0] = true;
-                                    random_clickers.get(finalIndex).changecolor();
-                                    buttons_clicked++;
-                                } else {
-                                    JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
-                                }
-                            }
-                        });
-                    } else {
-                        timer.cancel();
-                    }
-                }
-        };
-
-        timer.schedule(task, 0, 5000);
-
-    }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
             if (gametype.equals("reflexes")) {
                 if (!has_started) {
-                    redButton.addActionListener(this);
-                    blueButton.addActionListener(this);
-                    greenButton.addActionListener(this);
-                    yellowButton.addActionListener(this);
                     startButton.setLabel("Stop");
                     has_started = true;
                     try {
@@ -199,11 +152,27 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
                     startButton.setLabel("Start");
                     has_started = false;
                     musics.stop();
-                    JOptionPane.showMessageDialog(new JFrame(), "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(new Introduction(), "You have decided to stop. You pressed " + buttons_clicked + " buttons", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
                     setVisible(false);
                 }
             }
             if (gametype.equals("memory")) {
+                if (!has_started) {
+                    startButton.setLabel("Stop");
+                    has_started = true;
+                    try {
+                        startmusic(new File("Memory Music.wav"));
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    memorygame();
+                } else {
+                    startButton.setLabel("Start");
+                    has_started = false;
+                    musics.stop();
+                    JOptionPane.showMessageDialog(new Introduction(), "You have decided to stop. You completed " + rounds_completed + " rounds", "You have Stopped!", JOptionPane.WARNING_MESSAGE);
+                    setVisible(false);
+                }
 
             }
         }
