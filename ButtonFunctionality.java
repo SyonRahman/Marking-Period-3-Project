@@ -79,7 +79,7 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     }
 
     public void clickersgame() throws InterruptedException {
-        interval = 12000;
+        interval = 5000;
         for (int i = 0; i < 100; i++) {
             double buttonchance = Math.random();
             if (buttonchance < 0.25) random_clickers.add(redButton);
@@ -87,37 +87,47 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
             else if (buttonchance < 0.75) random_clickers.add(yellowButton);
             else random_clickers.add(blueButton);
         }
-        for (int i = 0; i < random_clickers.size(); i++) {
-            int finalI = i;
-            SwingWorker<Void, Void> clicker = new SwingWorker<Void, Void>() {
-                boolean hasCompleted = false;
-                @Override
-                protected Void doInBackground() throws Exception {
-                    random_clickers.get(finalI).changecolor();
-                    random_clickers.get(finalI).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (e.getSource() == random_clickers.get(finalI)) {
-                                random_clickers.get(finalI).changecolor();
-                                buttons_clicked++;
-                                hasCompleted = true;
-                            } else {
-                                JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
-                            }
-                        }
-                    });
-                    Thread.sleep(interval);
+        newclicker(0);
+    }
 
-                    return null;
-                }
-
-                @Override
-                protected void done() {
-                    super.done();
-                }
-            };
-            clicker.execute();
+    public void newclicker(int index) {
+        if (index >= random_clickers.size()) {
+            return;
         }
+
+        SwingWorker<Void, Void> clicker = new SwingWorker<Void, Void>() {
+            boolean hasCompleted = false;
+            @Override
+            protected Void doInBackground() throws Exception {
+                random_clickers.get(index).changecolor();
+                random_clickers.get(index).addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource() == random_clickers.get(index)) {
+                            random_clickers.get(index).changecolor();
+                            buttons_clicked++;
+                            hasCompleted = true;
+                            interval *= 0.9;
+                            newclicker(index + 1);
+                        } else {
+                            JOptionPane.showMessageDialog(new JFrame(), "You Clicked the wrong button! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                });
+                Thread.sleep(interval);
+
+                if (!hasCompleted) {
+                    JOptionPane.showMessageDialog(new JFrame(), "You did not click the button in time! You pressed " + buttons_clicked + " buttons", "You have lost", JOptionPane.WARNING_MESSAGE);
+                }
+
+                return null;
+            }
+
+            protected void done() {
+                super.done();
+            }
+        };
+        clicker.execute();
     }
 
 
