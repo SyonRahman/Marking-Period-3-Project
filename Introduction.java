@@ -17,6 +17,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private String name;
 
     public Introduction() {
+        System.out.println(Math.random());
         createComponents();
     }
 
