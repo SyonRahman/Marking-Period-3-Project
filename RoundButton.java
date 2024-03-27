@@ -7,6 +7,7 @@ public class RoundButton extends JButton {
     private Color lightcolor;
     private Color darkcolor;
     private Color borderColor;
+    private boolean litUp;
 
 
     public RoundButton(Color fillColor, Color borderColor, Color armedColor) {
@@ -32,7 +33,7 @@ public class RoundButton extends JButton {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (getModel().isArmed()) {
+        if (litUp) {
             g.setColor(lightcolor);
         } else {
             g.setColor(darkcolor);
@@ -42,9 +43,7 @@ public class RoundButton extends JButton {
     }
 
     public void changecolor() {
-        Color temp = darkcolor;
-        darkcolor = lightcolor;
-        lightcolor = temp;
+        litUp = !litUp;
         repaint();
     }
 
