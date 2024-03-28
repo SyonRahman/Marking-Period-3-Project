@@ -28,11 +28,14 @@ public class ButtonFunctionality extends JFrame implements ActionListener {
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
+    private String name;
     private int memoryindex;
     private int buttons_clicked, rounds_completed;
 
 
-    public ButtonFunctionality(String type) {
+
+    public ButtonFunctionality(String type, String name) {
+        this.name = name;
         gametype = type;
         createComponenets();
     }

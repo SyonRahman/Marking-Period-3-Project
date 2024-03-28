@@ -17,10 +17,10 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private String name;
 
     public Introduction() {
-        createComponents();
+
     }
 
-    private void createComponents() {
+    public void createComponents() {
         this.setPanels();
         this.setButtons();
         this.setTextField();
@@ -69,7 +69,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
             setVisible(false);
-            new ChooseScreen();
+            new ChooseScreen(name);
         }
         if (e.getSource() == Leaderboard) {
             setVisible(false);

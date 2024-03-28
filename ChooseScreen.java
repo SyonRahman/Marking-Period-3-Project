@@ -8,8 +8,10 @@ public class ChooseScreen extends JFrame implements ActionListener {
 
     private JButton memory = new JButton("Memory");
     private JButton reflexes = new JButton("Reflexes");
+    private String name;
 
-    public ChooseScreen() {
+    public ChooseScreen(String name) {
+        this.name = name;
         createComponenets();
     }
     public void createComponenets() {
@@ -41,11 +43,11 @@ public class ChooseScreen extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == memory) {
-            new ButtonFunctionality("memory");
+            new ButtonFunctionality("memory", name);
             setVisible(false);
         } else {
             if (e.getSource() == reflexes) {
-                new ButtonFunctionality("reflexes");
+                new ButtonFunctionality("reflexes", name);
                 setVisible(false);
             }
         }

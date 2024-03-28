@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        new Introduction();
+        Introduction i = new Introduction();
+        i.createComponents();
     }
 }
