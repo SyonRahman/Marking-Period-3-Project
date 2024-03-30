@@ -43,11 +43,11 @@ public class ChooseScreen extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == memory) {
-            new ButtonFunctionality("memory", name);
+            new MemoryGame();
             setVisible(false);
         } else {
             if (e.getSource() == reflexes) {
-                new ButtonFunctionality("reflexes", name);
+                new ClickerGame();
                 setVisible(false);
             }
         }
