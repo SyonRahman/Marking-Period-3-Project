@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class ClickerGame extends JFrame implements ActionListener {
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
-    private String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
     private ArrayList<RoundButton> memory_buttons = new ArrayList<RoundButton>();
@@ -119,7 +118,6 @@ public class ClickerGame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            if (gametype.equals("reflexes")) {
                 if (!has_started) {
                     startButton.setLabel("Stop");
                     has_started = true;
@@ -142,7 +140,6 @@ public class ClickerGame extends JFrame implements ActionListener {
                         setVisible(false);
                     }
                 }
-            }
         }
     }
 }

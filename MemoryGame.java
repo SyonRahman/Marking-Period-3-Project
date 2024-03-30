@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class MemoryGame extends JFrame implements ActionListener {
     private ArrayList<RoundButton> buttonspressed = new java.util.ArrayList<RoundButton>();
-    private String gametype;
     private Clip musics;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
     private ArrayList<RoundButton> memory_buttons = new ArrayList<RoundButton>();
