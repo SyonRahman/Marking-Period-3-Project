@@ -25,7 +25,7 @@ public class RoundButton extends JButton {
         super();
         darkcolor = fillColor;
         lightcolor = armedColor;
-        this.borderColor = Color.WHITE;
+        borderColor = Color.WHITE;
         setContentAreaFilled(false);
         setPreferredSize(new Dimension(200, 200));
     }
@@ -54,15 +54,4 @@ public class RoundButton extends JButton {
         g22.setStroke(new BasicStroke(10));
         g22.drawOval(5, 5, getWidth() - 10, getHeight() - 10);
     }
-
-    public Color getLightcolor() {
-        return lightcolor;
-    }
-
-    public Color getDarkcolor() {
-        return darkcolor;
-    }
-
-
-
 }

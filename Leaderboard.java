@@ -78,7 +78,7 @@ public class Leaderboard extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == home) {
-            new Introduction();
+            new Introduction().createComponents();
             setVisible(false);
         }
     }

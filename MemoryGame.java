@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class MemoryGame extends JFrame implements ActionListener {
 
     public MemoryGame() {
         createComponenets();
+        action();
     }
 
     public void startmusic(File music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -63,35 +66,48 @@ public class MemoryGame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public void action() {
+        MouseAdapter buttonListener = new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                RoundButton button = (RoundButton) e.getSource();
+                buttonspressed.add(button);
+                if (!buttonspressed.equals(memory_buttons.subList(0, buttonspressed.size()))) {
+                    int memoryended = JOptionPane.showConfirmDialog(null, "You have clicked the wrong buttons! You completed " +
+                            rounds_completed + " rounds", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+                    if (memoryended == JOptionPane.OK_OPTION || memoryended == JOptionPane.CANCEL_OPTION || memoryended == JOptionPane.CLOSED_OPTION) {
+                        setVisible(false);
+                    }
+                } else if (buttonspressed.size() == memory_buttons.size()) {
+                    rounds_completed++;
+                    memorygame();
+                }
+            }
+        };
+        redButton.addMouseListener(buttonListener);
+        blueButton.addMouseListener(buttonListener);
+        greenButton.addMouseListener(buttonListener);
+        yellowButton.addMouseListener(buttonListener);
+    }
+
     public void memorygame() {
         memory_buttons.add(setRandomButtons());
+        buttonspressed.clear();
         SwingWorker<Void, Void> memories = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
+                redButton.setEnabled(false);
+                blueButton.setEnabled(false);
+                greenButton.setEnabled(false);
+                yellowButton.setEnabled(false);
                 for (RoundButton button : memory_buttons) {
                     button.changecolor();
                     Thread.sleep(3000);
-                    button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (e.getSource() == button) {
-                                button.changecolor();
-                                buttonspressed.add(button);
-                                if (buttonspressed.equals(memory_buttons)) {
-                                    rounds_completed++;
-                                    buttonspressed.clear();
-                                    memorygame();
-                                } else {
-                                    int memoryended = JOptionPane.showConfirmDialog(null, "You have clicked the wrong buttons! You completed " +
-                                            rounds_completed + " rounds", "You have lost", JOptionPane.OK_CANCEL_OPTION);
-                                    if (memoryended == JOptionPane.OK_OPTION || memoryended == JOptionPane.CANCEL_OPTION || memoryended == JOptionPane.CLOSED_OPTION) {
-                                        setVisible(false);
-                                    }
-                                }
-                            }
-                        }
-                    });
+                    button.changecolor();
                 }
+                redButton.setEnabled(true);
+                blueButton.setEnabled(true);
+                greenButton.setEnabled(true);
+                yellowButton.setEnabled(true);
 
                 return null;
             }
@@ -101,6 +117,7 @@ public class MemoryGame extends JFrame implements ActionListener {
                 super.done();
             }
         };
+        memories.execute();
     }
 
     public RoundButton setRandomButtons() {
@@ -133,4 +150,6 @@ public class MemoryGame extends JFrame implements ActionListener {
             }
         }
     }
+
+
 }

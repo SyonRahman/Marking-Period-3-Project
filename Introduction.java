@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
 public class Introduction extends JFrame implements ActionListener, KeyListener {
 
@@ -15,9 +16,14 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private JPanel Body;
     private JButton Leaderboard;
     private String name;
+    private HashMap<String, Integer> leaderboard = new HashMap<String, Integer>();
 
     public Introduction() {
 
+    }
+
+    public Introduction(String name, int completed) {
+        leaderboard.put(name, completed);
     }
 
     public void createComponents() {
@@ -64,12 +70,47 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         NameEnter.setBackground(Color.pink);
     }
 
+    private void createChoicePanel() {
+        JPanel choicePanel = new JPanel();
+        choicePanel.setLayout(new GridLayout(0, 1));
+
+        JButton memory = new JButton("Memory");
+        JButton reflexes = new JButton("Reflexes");
+
+        memory.setBounds(50, 50, 200, 500);
+        reflexes.setBounds(250, 50, 200, 500);
+        memory.setFont(new Font("Courier New", Font.BOLD, 50));
+        reflexes.setFont(new Font("Courier New", Font.BOLD, 50));
+        memory.setForeground(Color.RED);
+        reflexes.setForeground(Color.YELLOW);
+        memory.setBackground(Color.BLUE);
+        reflexes.setBackground(Color.GREEN);
+        memory.addActionListener(e -> {
+            new MemoryGame();
+            setVisible(false);
+        });
+        reflexes.addActionListener(e -> {
+            new ClickerGame();
+            setVisible(false);
+        });
+
+        choicePanel.add(memory);
+        choicePanel.add(reflexes);
+
+        JFrame gameChoiceFrame = new JFrame("Choose Game");
+        gameChoiceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameChoiceFrame.getContentPane().add(choicePanel);
+        gameChoiceFrame.setSize(1000, 1000);
+        gameChoiceFrame.setLocationRelativeTo(null);
+        gameChoiceFrame.setVisible(true);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
             setVisible(false);
-            new ChooseScreen(name);
+            createChoicePanel();
         }
         if (e.getSource() == Leaderboard) {
             setVisible(false);

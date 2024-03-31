@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,16 +12,21 @@ import java.util.ArrayList;
 public class ClickerGame extends JFrame implements ActionListener {
     private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private Clip musics;
+    private Timer timer;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
-    private ArrayList<RoundButton> memory_buttons = new ArrayList<RoundButton>();
     private RoundButton redButton = new RoundButton(Color.RED.darker().darker(), Color.RED.brighter());
     private RoundButton blueButton = new RoundButton(Color.BLUE.darker().darker(), Color.BLUE.brighter());
     private RoundButton greenButton = new RoundButton(Color.GREEN.darker().darker(), Color.GREEN.brighter());
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
+    private int interval = 7000;
     private String name;
     private int buttons_clicked;
+
+    public ClickerGame() {
+        createComponenets();
+    }
 
     public void startmusic(File music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         AudioInputStream musicstream = AudioSystem.getAudioInputStream(music);
@@ -57,6 +64,8 @@ public class ClickerGame extends JFrame implements ActionListener {
 
         setResizable(false);
         setVisible(true);
+
+        action();
     }
 
     public void clickersgame() throws InterruptedException {
@@ -71,33 +80,15 @@ public class ClickerGame extends JFrame implements ActionListener {
             return;
         }
 
+        RoundButton clickerButton = random_clickers.get(index);
+        timer = new Timer(interval, e -> endGame());
+
         SwingWorker<Void, Void> clicker = new SwingWorker<>() {
-            boolean hasCompleted = false;
 
             @Override
             protected Void doInBackground() throws Exception {
-                random_clickers.get(index).changecolor();
-                random_clickers.get(index).addActionListener(e -> {
-                    if (e.getSource() == random_clickers.get(index)) {
-                        random_clickers.get(index).changecolor();
-                        buttons_clicked++;
-                        hasCompleted = true;
-                        newclicker(index + 1, interval * 9 / 10);
-                    } else {
-                        int ended = JOptionPane.showConfirmDialog(null, "You have clicked the wrong button! You pressed " +
-                                buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
-                    }
-                });
-                Thread.sleep(interval);
-
-                if (!hasCompleted) {
-                    int notpressed = JOptionPane.showConfirmDialog(null, "You have not pressed the button in time! You pressed " +
-                            buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
-                    if (notpressed == JOptionPane.OK_OPTION || notpressed == JOptionPane.CANCEL_OPTION || notpressed == JOptionPane.CLOSED_OPTION) {
-                        setVisible(false);
-                    }
-                }
-
+                clickerButton.changecolor();
+                timer.start();
                 return null;
             }
 
@@ -106,6 +97,40 @@ public class ClickerGame extends JFrame implements ActionListener {
             }
         };
         clicker.execute();
+    }
+
+    public void action() {
+        MouseAdapter buttonListener = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                RoundButton clickerbutton = (RoundButton) e.getSource();
+                if (clickerbutton == random_clickers.get(buttons_clicked)) {
+                    clickerbutton.changecolor();
+                    buttons_clicked++;
+                    timer.stop();
+                    newclicker(buttons_clicked, interval * 9/10);
+                } else {
+                    timer.stop();
+                    int pressedwrong = JOptionPane.showConfirmDialog(null, "You have pressed the wrong button! You pressed " +
+                            buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+                    if (pressedwrong == JOptionPane.OK_OPTION || pressedwrong == JOptionPane.CANCEL_OPTION || pressedwrong == JOptionPane.CLOSED_OPTION) {
+                        setVisible(false);
+                    }
+                }
+            }
+        };
+        redButton.addMouseListener(buttonListener);
+        blueButton.addMouseListener(buttonListener);
+        greenButton.addMouseListener(buttonListener);
+        yellowButton.addMouseListener(buttonListener);
+    }
+
+    public void endGame() {
+        int notpressed = JOptionPane.showConfirmDialog(null, "You have not pressed the button in time! You pressed " +
+                buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+        if (notpressed == JOptionPane.OK_OPTION || notpressed == JOptionPane.CANCEL_OPTION || notpressed == JOptionPane.CLOSED_OPTION) {
+            setVisible(false);
+        }
     }
 
     public RoundButton setRandomButtons() {
