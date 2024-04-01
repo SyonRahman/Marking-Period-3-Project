@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Introduction extends JFrame implements ActionListener, KeyListener {
@@ -16,14 +17,11 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private JPanel Body;
     private JButton Leaderboard;
     private String name;
-    private HashMap<String, Integer> leaderboard = new HashMap<String, Integer>();
+    private ArrayList<ClickerGame> clickerGames = new ArrayList<ClickerGame>();
+    private ArrayList<MemoryGame> memoryGames = new ArrayList<MemoryGame>();
 
     public Introduction() {
 
-    }
-
-    public Introduction(String name, int completed) {
-        leaderboard.put(name, completed);
     }
 
     public void createComponents() {
@@ -86,11 +84,13 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         memory.setBackground(Color.BLUE);
         reflexes.setBackground(Color.GREEN);
         memory.addActionListener(e -> {
-            new MemoryGame();
+            MemoryGame memorygame = new MemoryGame();
+            memoryGames.add(memorygame);
             setVisible(false);
         });
         reflexes.addActionListener(e -> {
-            new ClickerGame();
+            ClickerGame clickergame = new ClickerGame();
+            clickerGames.add(clickergame);
             setVisible(false);
         });
 
@@ -109,12 +109,12 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
-            setVisible(false);
             createChoicePanel();
+            setVisible(false);
         }
         if (e.getSource() == Leaderboard) {
             setVisible(false);
-            new Leaderboard();
+            new Leaderboard(memoryGames, clickerGames, name);
         }
     }
 

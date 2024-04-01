@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class MemoryGame extends JFrame implements ActionListener {
     private ArrayList<RoundButton> buttonspressed = new java.util.ArrayList<RoundButton>();
     private Clip musics;
-    private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
+    private boolean sequenceexecuted;
     private ArrayList<RoundButton> memory_buttons = new ArrayList<RoundButton>();
     private RoundButton redButton = new RoundButton(Color.RED.darker().darker(), Color.RED.brighter());
     private RoundButton blueButton = new RoundButton(Color.BLUE.darker().darker(), Color.BLUE.brighter());
@@ -25,7 +25,6 @@ public class MemoryGame extends JFrame implements ActionListener {
 
     public MemoryGame() {
         createComponenets();
-        action();
     }
 
     public void startmusic(File music) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -64,14 +63,19 @@ public class MemoryGame extends JFrame implements ActionListener {
 
         setResizable(false);
         setVisible(true);
+
+        action();
     }
 
     public void action() {
         MouseAdapter buttonListener = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (sequenceexecuted) {
+                    return;
+                }
                 RoundButton button = (RoundButton) e.getSource();
                 buttonspressed.add(button);
-                if (!buttonspressed.equals(memory_buttons.subList(0, buttonspressed.size()))) {
+                if (!buttonspressed.equals(partofList(memory_buttons, 0, buttonspressed.size()))) {
                     int memoryended = JOptionPane.showConfirmDialog(null, "You have clicked the wrong buttons! You completed " +
                             rounds_completed + " rounds", "You have lost", JOptionPane.OK_CANCEL_OPTION);
                     if (memoryended == JOptionPane.OK_OPTION || memoryended == JOptionPane.CANCEL_OPTION || memoryended == JOptionPane.CLOSED_OPTION) {
@@ -89,12 +93,21 @@ public class MemoryGame extends JFrame implements ActionListener {
         yellowButton.addMouseListener(buttonListener);
     }
 
+    public ArrayList<RoundButton> partofList(ArrayList<RoundButton> buttons, int start, int end) {
+        ArrayList<RoundButton> partofList = new ArrayList<RoundButton>();
+        for (int i = start; i < end; i++) {
+            partofList.add(buttons.get(i));
+        }
+        return partofList;
+    }
+
     public void memorygame() {
         memory_buttons.add(setRandomButtons());
         buttonspressed.clear();
         SwingWorker<Void, Void> memories = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
+                sequenceexecuted = true;
                 redButton.setEnabled(false);
                 blueButton.setEnabled(false);
                 greenButton.setEnabled(false);
@@ -108,6 +121,7 @@ public class MemoryGame extends JFrame implements ActionListener {
                 blueButton.setEnabled(true);
                 greenButton.setEnabled(true);
                 yellowButton.setEnabled(true);
+                sequenceexecuted = false;
 
                 return null;
             }
@@ -125,6 +139,10 @@ public class MemoryGame extends JFrame implements ActionListener {
         else if (Math.random() < 0.5) return blueButton;
         else if (Math.random() < 0.75) return greenButton;
         else return yellowButton;
+    }
+
+    public int getRounds_completed() {
+        return rounds_completed;
     }
 
     @Override

@@ -140,6 +140,10 @@ public class ClickerGame extends JFrame implements ActionListener {
         else return blueButton;
     }
 
+    public int getButtons_clicked() {
+        return buttons_clicked;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
