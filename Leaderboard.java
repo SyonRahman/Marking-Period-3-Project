@@ -65,7 +65,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         memoryPanel.removeAll();
         memoryPanel.setLayout(new BoxLayout(memoryPanel, BoxLayout.Y_AXIS));
         JLabel memory = new JLabel("Memory Game", SwingConstants.CENTER);
-        memory.setFont(new Font("Courier New", Font.BOLD, 20));
+        memory.setFont(new Font("Courier New", Font.BOLD, 25));
         memory.setForeground(Color.RED);
         memory.setAlignmentX(Component.CENTER_ALIGNMENT);
         memoryPanel.setBackground(Color.BLUE);
@@ -172,19 +172,19 @@ public class Leaderboard extends JFrame implements ActionListener {
                 names.remove(i);
             }
         }
-        for (int i = 0; i < clickerleaderboard.size() - 1; i++) {
-            int maxIndex = i;
-            for (int j = i + 1; j < clickerleaderboard.size(); j++) {
-                if (clickerleaderboard.get(j).getButtons_clicked() > clickerleaderboard.get(maxIndex).getButtons_clicked()) {
-                    maxIndex = j;
-                }
+
+        for (int i = 1; i < clickerleaderboard.size(); i++) {
+            ClickerGame temp = clickerleaderboard.get(i);
+            String tempName = names.get(i);
+            int j = i - 1;
+
+            while (j >= 0 && clickerleaderboard.get(j).getButtons_clicked() < temp.getButtons_clicked()) {
+                clickerleaderboard.set(j + 1, clickerleaderboard.get(j));
+                names.set(j + 1, names.get(j));
+                j--;
             }
-            ClickerGame temp = clickerleaderboard.get(maxIndex);
-            clickerleaderboard.set(maxIndex, clickerleaderboard.get(i));
-            clickerleaderboard.set(i, temp);
-            String temps = names.get(maxIndex);
-            names.set(maxIndex, names.get(i));
-            names.set(i, temps);
+            clickerleaderboard.set(j + 1, temp);
+            names.set(j + 1, tempName);
         }
     }
 
