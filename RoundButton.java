@@ -15,10 +15,7 @@ public class RoundButton extends JButton {
         darkcolor = fillColor;
         lightcolor = armedColor;
         this.borderColor = borderColor;
-        // Make the button transparent
         setContentAreaFilled(false);
-        // Set preferred size to make it a circle
-        setPreferredSize(new Dimension(200, 200));
     }
 
     public RoundButton(Color fillColor, Color armedColor) {

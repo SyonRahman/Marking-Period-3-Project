@@ -2,12 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Introduction extends JFrame implements ActionListener, KeyListener {
+public class Introduction extends JFrame implements ActionListener {
 
     private JPanel newpanel;
     private JLabel Name;
@@ -16,7 +13,9 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
     private JLabel Title;
     private JPanel Body;
     private JButton Leaderboard;
+    private Leaderboard leaderboard;
     private String name;
+    private ArrayList<String> names = new ArrayList<String>();
     private ArrayList<ClickerGame> clickerGames = new ArrayList<ClickerGame>();
     private ArrayList<MemoryGame> memoryGames = new ArrayList<MemoryGame>();
 
@@ -72,8 +71,8 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         JPanel choicePanel = new JPanel();
         choicePanel.setLayout(new GridLayout(0, 1));
 
-        JButton memory = new JButton("Memory");
-        JButton reflexes = new JButton("Reflexes");
+        JButton memory = new JButton("MemoryGame");
+        JButton reflexes = new JButton("ClickerGame");
 
         memory.setBounds(50, 50, 200, 500);
         reflexes.setBounds(250, 50, 200, 500);
@@ -83,16 +82,7 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         reflexes.setForeground(Color.YELLOW);
         memory.setBackground(Color.BLUE);
         reflexes.setBackground(Color.GREEN);
-        memory.addActionListener(e -> {
-            MemoryGame memorygame = new MemoryGame();
-            memoryGames.add(memorygame);
-            setVisible(false);
-        });
-        reflexes.addActionListener(e -> {
-            ClickerGame clickergame = new ClickerGame();
-            clickerGames.add(clickergame);
-            setVisible(false);
-        });
+
 
         choicePanel.add(memory);
         choicePanel.add(reflexes);
@@ -103,37 +93,39 @@ public class Introduction extends JFrame implements ActionListener, KeyListener 
         gameChoiceFrame.setSize(1000, 1000);
         gameChoiceFrame.setLocationRelativeTo(null);
         gameChoiceFrame.setVisible(true);
+
+        memory.addActionListener(e -> {
+            MemoryGame memorygame = new MemoryGame();
+            memoryGames.add(memorygame);
+            gameChoiceFrame.setVisible(false);
+            setVisible(true);
+            toBack();
+        });
+        reflexes.addActionListener(e -> {
+            ClickerGame clickergame = new ClickerGame();
+            clickerGames.add(clickergame);
+            gameChoiceFrame.setVisible(false);
+            setVisible(true);
+            toBack();
+        });
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
+            names.add(name);
             createChoicePanel();
             setVisible(false);
         }
         if (e.getSource() == Leaderboard) {
-            setVisible(false);
-            new Leaderboard(memoryGames, clickerGames, name);
+            if (leaderboard == null) {
+                leaderboard = new Leaderboard(memoryGames, clickerGames, names);
+            } else {
+                leaderboard.updateLeaderboard(memoryGames, clickerGames, names);
+                leaderboard.setVisible(true);
+            }
+            toBack();
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    public String getName() {
-        return name;
     }
 }

@@ -20,7 +20,6 @@ public class MemoryGame extends JFrame implements ActionListener {
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
-    private String name;
     private int rounds_completed;
 
     public MemoryGame() {
@@ -78,8 +77,9 @@ public class MemoryGame extends JFrame implements ActionListener {
                 if (!buttonspressed.equals(partofList(memory_buttons, 0, buttonspressed.size()))) {
                     int memoryended = JOptionPane.showConfirmDialog(null, "You have clicked the wrong buttons! You completed " +
                             rounds_completed + " rounds", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+                    musics.stop();
                     if (memoryended == JOptionPane.OK_OPTION || memoryended == JOptionPane.CANCEL_OPTION || memoryended == JOptionPane.CLOSED_OPTION) {
-                        setVisible(false);
+                        dispose();
                     }
                 } else if (buttonspressed.size() == memory_buttons.size()) {
                     rounds_completed++;
@@ -163,7 +163,7 @@ public class MemoryGame extends JFrame implements ActionListener {
                 musics.stop();
                 int stop = JOptionPane.showConfirmDialog(null, "You have decided to stop. You completed " + rounds_completed + " rounds", "You have Stopped!", JOptionPane.OK_CANCEL_OPTION);
                 if (stop == JOptionPane.OK_OPTION || stop == JOptionPane.CANCEL_OPTION || stop == JOptionPane.CLOSED_OPTION) {
-                    setVisible(false);
+                    dispose();
                 }
             }
         }

@@ -1,18 +1,15 @@
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ClickerGame extends JFrame implements ActionListener {
-    private ArrayList<RoundButton> buttonspressed = new ArrayList<RoundButton>();
     private Clip musics;
     private Timer timer;
+    private SwingWorker<Void, Void> clicker;
     private ArrayList<RoundButton> random_clickers = new ArrayList<RoundButton>();
     private RoundButton redButton = new RoundButton(Color.RED.darker().darker(), Color.RED.brighter());
     private RoundButton blueButton = new RoundButton(Color.BLUE.darker().darker(), Color.BLUE.brighter());
@@ -20,8 +17,7 @@ public class ClickerGame extends JFrame implements ActionListener {
     private RoundButton yellowButton = new RoundButton(Color.YELLOW.darker().darker(), Color.YELLOW.brighter());
     private RoundButton startButton = new RoundButton(Color.WHITE, Color.GRAY, Color.BLACK);
     private boolean has_started;
-    private int interval = 7000;
-    private String name;
+    private int interval = 8000;
     private int buttons_clicked;
 
     public ClickerGame() {
@@ -40,7 +36,19 @@ public class ClickerGame extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.BLACK);
         setSize(1000, 1000);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (timer != null) {
+                    timer.stop();
+                }
+                if (clicker != null && !clicker.isDone()) {
+                    clicker.cancel(true);
+                }
+                dispose();
+            }
+        });
         setLayout(null);
 
         redButton.setBounds(125, 125, 200, 200);
@@ -72,18 +80,23 @@ public class ClickerGame extends JFrame implements ActionListener {
         for (int i = 0; i < 100; i++) {
             random_clickers.add(setRandomButtons());
         }
-        newclicker(0, 10000);
+        newclicker(0, interval);
     }
+
 
     public void newclicker(int index, int interval) {
         if (index >= random_clickers.size()) {
             return;
         }
 
+        if (timer != null) {
+            timer.stop();
+        }
+
         RoundButton clickerButton = random_clickers.get(index);
         timer = new Timer(interval, e -> endGame());
 
-        SwingWorker<Void, Void> clicker = new SwingWorker<>() {
+        clicker = new SwingWorker<>() {
 
             @Override
             protected Void doInBackground() throws Exception {
@@ -97,6 +110,20 @@ public class ClickerGame extends JFrame implements ActionListener {
             }
         };
         clicker.execute();
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        if (!b) {
+            if (timer != null) {
+                timer.stop();
+            }
+            if (clicker != null && !clicker.isDone()) {
+                clicker.cancel(true);
+            }
+            dispose();
+        }
     }
 
     public void action() {
@@ -113,6 +140,7 @@ public class ClickerGame extends JFrame implements ActionListener {
                     timer.stop();
                     int pressedwrong = JOptionPane.showConfirmDialog(null, "You have pressed the wrong button! You pressed " +
                             buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+                    musics.stop();
                     if (pressedwrong == JOptionPane.OK_OPTION || pressedwrong == JOptionPane.CANCEL_OPTION || pressedwrong == JOptionPane.CLOSED_OPTION) {
                         setVisible(false);
                     }
@@ -128,6 +156,7 @@ public class ClickerGame extends JFrame implements ActionListener {
     public void endGame() {
         int notpressed = JOptionPane.showConfirmDialog(null, "You have not pressed the button in time! You pressed " +
                 buttons_clicked + " buttons", "You have lost", JOptionPane.OK_CANCEL_OPTION);
+        musics.stop();
         if (notpressed == JOptionPane.OK_OPTION || notpressed == JOptionPane.CANCEL_OPTION || notpressed == JOptionPane.CLOSED_OPTION) {
             setVisible(false);
         }
@@ -143,6 +172,7 @@ public class ClickerGame extends JFrame implements ActionListener {
     public int getButtons_clicked() {
         return buttons_clicked;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
