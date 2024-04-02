@@ -12,17 +12,12 @@ public class Leaderboard extends JFrame implements ActionListener {
     private ArrayList<ClickerGame> clickerleaderboard = new ArrayList<ClickerGame>();
     private ArrayList<String> memorynames = new ArrayList<String>();
     private ArrayList<String> clickernames = new ArrayList<String>();
-    private String name;
 
     public Leaderboard(ArrayList<MemoryGame> memoryleaderboard, ArrayList<ClickerGame> clickerleaderboard, ArrayList<String> memorynames, ArrayList<String> clickernames) {
         this.memoryleaderboard = memoryleaderboard;
         this.clickerleaderboard = clickerleaderboard;
         this.memorynames = memorynames;
         this.clickernames = clickernames;
-        createComponents();
-    }
-
-    public Leaderboard() {
         createComponents();
     }
 
