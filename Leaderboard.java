@@ -10,13 +10,15 @@ public class Leaderboard extends JFrame implements ActionListener {
     JPanel memoryPanel = new JPanel(new BorderLayout());
     private ArrayList<MemoryGame> memoryleaderboard = new ArrayList<MemoryGame>();
     private ArrayList<ClickerGame> clickerleaderboard = new ArrayList<ClickerGame>();
-    private ArrayList<String> names = new ArrayList<String>();
+    private ArrayList<String> memorynames = new ArrayList<String>();
+    private ArrayList<String> clickernames = new ArrayList<String>();
     private String name;
 
-    public Leaderboard(ArrayList<MemoryGame> memoryleaderboard, ArrayList<ClickerGame> clickerleaderboard, ArrayList<String> names) {
-        this.names = names;
+    public Leaderboard(ArrayList<MemoryGame> memoryleaderboard, ArrayList<ClickerGame> clickerleaderboard, ArrayList<String> memorynames, ArrayList<String> clickernames) {
         this.memoryleaderboard = memoryleaderboard;
         this.clickerleaderboard = clickerleaderboard;
+        this.memorynames = memorynames;
+        this.clickernames = clickernames;
         createComponents();
     }
 
@@ -74,7 +76,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         if (memoryleaderboard.size() < 10) {
             for (int i = 0; i < memoryleaderboard.size(); i++) {
                 JLabel label = new JLabel();
-                label.setText((i+1) + "."+ " Name: " + names.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
+                label.setText((i+1) + "."+ " Name: " + memorynames.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
                 label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(750, y, 25, 25);
@@ -85,7 +87,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         } else {
             for (int i = 0; i < 10; i++) {
                 JLabel label = new JLabel();
-                label.setText((i+1) + "." + " Name: " + names.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
+                label.setText((i+1) + "." + " Name: " + memorynames.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
                 label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(750, y, 25, 25);
@@ -111,7 +113,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         if (clickerleaderboard.size() < 10) {
             for (int i = 0; i < clickerleaderboard.size(); i++) {
                 JLabel label = new JLabel();
-                label.setText((i+1) + "." + " Name: " + names.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
+                label.setText((i+1) + "." + " Name: " + clickernames.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
                 label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(250, y, 25, 25);
@@ -122,7 +124,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         } else {
             for (int i = 0; i < 10; i++) {
                 JLabel label = new JLabel();
-                label.setText((i+1) + "." + " Name: " + names.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
+                label.setText((i+1) + "." + " Name: " + clickernames.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
                 label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(250, y, 100, 25);
@@ -146,7 +148,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         for (int i = memoryleaderboard.size() - 1; i >= 0; i--) {
             if (memoryleaderboard.get(i).getRounds_completed() == 0) {
                 memoryleaderboard.remove(i);
-                names.remove(i);
+                memorynames.remove(i);
             }
         }
         for (int i = 0; i < memoryleaderboard.size() - 1; i++) {
@@ -159,9 +161,9 @@ public class Leaderboard extends JFrame implements ActionListener {
             MemoryGame temp = memoryleaderboard.get(maxIndex);
             memoryleaderboard.set(maxIndex, memoryleaderboard.get(i));
             memoryleaderboard.set(i, temp);
-            String temps = names.get(maxIndex);
-            names.set(maxIndex, names.get(i));
-            names.set(i, temps);
+            String temps = memorynames.get(maxIndex);
+            memorynames.set(maxIndex, memorynames.get(i));
+            memorynames.set(i, temps);
         }
     }
 
@@ -169,29 +171,30 @@ public class Leaderboard extends JFrame implements ActionListener {
         for (int i = clickerleaderboard.size() - 1; i >= 0; i--) {
             if (clickerleaderboard.get(i).getButtons_clicked() == 0) {
                 clickerleaderboard.remove(i);
-                names.remove(i);
+                clickernames.remove(i);
             }
         }
 
         for (int i = 1; i < clickerleaderboard.size(); i++) {
             ClickerGame temp = clickerleaderboard.get(i);
-            String tempName = names.get(i);
+            String tempName = clickernames.get(i);
             int j = i - 1;
 
             while (j >= 0 && clickerleaderboard.get(j).getButtons_clicked() < temp.getButtons_clicked()) {
                 clickerleaderboard.set(j + 1, clickerleaderboard.get(j));
-                names.set(j + 1, names.get(j));
+                clickernames.set(j + 1, clickernames.get(j));
                 j--;
             }
             clickerleaderboard.set(j + 1, temp);
-            names.set(j + 1, tempName);
+            clickernames.set(j + 1, tempName);
         }
     }
 
-    public void updateLeaderboard(ArrayList<MemoryGame> memoryleaderboard, ArrayList<ClickerGame> clickerleaderboard, ArrayList<String> names) {
+    public void updateLeaderboard(ArrayList<MemoryGame> memoryleaderboard, ArrayList<ClickerGame> clickerleaderboard, ArrayList<String> memorynames, ArrayList<String> clickernames) {
         this.memoryleaderboard = memoryleaderboard;
         this.clickerleaderboard = clickerleaderboard;
-        this.names = names;
+        this.memorynames = memorynames;
+        this.clickernames = clickernames;
         createLeaderboard();
     }
 

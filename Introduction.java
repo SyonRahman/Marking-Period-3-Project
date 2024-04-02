@@ -15,7 +15,8 @@ public class Introduction extends JFrame implements ActionListener {
     private JButton Leaderboard;
     private Leaderboard leaderboard;
     private String name;
-    private ArrayList<String> names = new ArrayList<String>();
+    private ArrayList<String> clickernames = new ArrayList<String>();
+    private ArrayList<String> memorynames = new ArrayList<>();
     private ArrayList<ClickerGame> clickerGames = new ArrayList<ClickerGame>();
     private ArrayList<MemoryGame> memoryGames = new ArrayList<MemoryGame>();
 
@@ -29,7 +30,7 @@ public class Introduction extends JFrame implements ActionListener {
         this.setTextField();
         this.setLabels();
         setContentPane(newpanel);
-        setTitle("Button Game");
+        setTitle("Button Games");
         setSize(500, 500);
         setLocation(500, 500);
         setLocationRelativeTo(null);
@@ -97,6 +98,7 @@ public class Introduction extends JFrame implements ActionListener {
         memory.addActionListener(e -> {
             MemoryGame memorygame = new MemoryGame();
             memoryGames.add(memorygame);
+            memorynames.add(name);
             gameChoiceFrame.setVisible(false);
             setVisible(true);
             toBack();
@@ -104,6 +106,7 @@ public class Introduction extends JFrame implements ActionListener {
         reflexes.addActionListener(e -> {
             ClickerGame clickergame = new ClickerGame();
             clickerGames.add(clickergame);
+            clickernames.add(name);
             gameChoiceFrame.setVisible(false);
             setVisible(true);
             toBack();
@@ -114,15 +117,14 @@ public class Introduction extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == NameSet) {
             name = NameEnter.getText();
-            names.add(name);
             createChoicePanel();
             setVisible(false);
         }
         if (e.getSource() == Leaderboard) {
             if (leaderboard == null) {
-                leaderboard = new Leaderboard(memoryGames, clickerGames, names);
+                leaderboard = new Leaderboard(memoryGames, clickerGames, memorynames, clickernames);
             } else {
-                leaderboard.updateLeaderboard(memoryGames, clickerGames, names);
+                leaderboard.updateLeaderboard(memoryGames, clickerGames, memorynames, clickernames);
                 leaderboard.setVisible(true);
             }
             toBack();
