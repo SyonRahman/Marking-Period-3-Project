@@ -24,7 +24,6 @@ public class RoundButton extends JButton {
         lightcolor = armedColor;
         borderColor = Color.WHITE;
         setContentAreaFilled(false);
-        setPreferredSize(new Dimension(200, 200));
     }
 
     @Override

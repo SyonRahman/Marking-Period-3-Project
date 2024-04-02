@@ -75,23 +75,23 @@ public class Leaderboard extends JFrame implements ActionListener {
             for (int i = 0; i < memoryleaderboard.size(); i++) {
                 JLabel label = new JLabel();
                 label.setText((i+1) + "."+ " Name: " + names.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
-                label.setFont(new Font("Courier New", Font.BOLD, 15));
+                label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(750, y, 25, 25);
                 label.setAlignmentX(Component.CENTER_ALIGNMENT);
                 memoryPanel.add(label);
-                y += 25;
+                y += 50;
             }
         } else {
             for (int i = 0; i < 10; i++) {
                 JLabel label = new JLabel();
                 label.setText((i+1) + "." + " Name: " + names.get(i) + " Rounds Completed: " + memoryleaderboard.get(i).getRounds_completed());
-                label.setFont(new Font("Courier New", Font.BOLD, 15));
+                label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(750, y, 25, 25);
                 label.setAlignmentX(Component.CENTER_ALIGNMENT);
                 memoryPanel.add(label);
-                y += 25;
+                y += 50;
             }
         }
         memoryPanel.revalidate();
@@ -102,7 +102,7 @@ public class Leaderboard extends JFrame implements ActionListener {
         clickerPanel.removeAll();
         clickerPanel.setLayout(new BoxLayout(clickerPanel, BoxLayout.Y_AXIS));
         JLabel clicker = new JLabel("Clicker Game", SwingConstants.CENTER);
-        clicker.setFont(new Font("Courier New", Font.BOLD, 20));
+        clicker.setFont(new Font("Courier New", Font.BOLD, 25));
         clicker.setForeground(Color.YELLOW);
         clicker.setAlignmentX(Component.CENTER_ALIGNMENT);
         clickerPanel.setBackground(Color.GREEN);
@@ -112,23 +112,23 @@ public class Leaderboard extends JFrame implements ActionListener {
             for (int i = 0; i < clickerleaderboard.size(); i++) {
                 JLabel label = new JLabel();
                 label.setText((i+1) + "." + " Name: " + names.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
-                label.setFont(new Font("Courier New", Font.BOLD, 15));
+                label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(250, y, 25, 25);
                 label.setAlignmentX(Component.CENTER_ALIGNMENT);
                 clickerPanel.add(label);
-                y += 25;
+                y += 50;
             }
         } else {
             for (int i = 0; i < 10; i++) {
                 JLabel label = new JLabel();
                 label.setText((i+1) + "." + " Name: " + names.get(i) + " Buttons Clicked: " + clickerleaderboard.get(i).getButtons_clicked());
-                label.setFont(new Font("Courier New", Font.BOLD, 15));
+                label.setFont(new Font("Courier New", Font.BOLD, 20));
                 label.setForeground(Color.BLACK.brighter());
                 label.setBounds(250, y, 100, 25);
                 label.setAlignmentX(Component.CENTER_ALIGNMENT);
                 clickerPanel.add(label);
-                y += 30;
+                y += 50;
             }
         }
         clickerPanel.revalidate();

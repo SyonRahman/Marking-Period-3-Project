@@ -20,7 +20,7 @@ public class Introduction extends JFrame implements ActionListener {
     private ArrayList<MemoryGame> memoryGames = new ArrayList<MemoryGame>();
 
     public Introduction() {
-
+        createComponents();
     }
 
     public void createComponents() {
